@@ -1,9 +1,10 @@
-"# erp" 
+
+
 Purpose:
-1-ERP app.
-2-General purpose app where quantities required to be managed are customized by the admin.
+ -General purpose ERP app for small businesses.
 
 Requirements:
+
 1-The worker user must be able to perform all sales operations: 
 
 	A- Creating a new bill, each bill has a significant ID, time, customer, and phone number.
@@ -31,7 +32,7 @@ Classes and objects:
             -unit 
         -name
         -image
-        -discription
+        -description
         -quantity_stock
     
 

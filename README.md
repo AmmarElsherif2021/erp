@@ -21,10 +21,29 @@ Requirements:
 
 3-A cumulative chart should be updated day by day.
 
-Functions:
 Classes and objects:
+ -Good():
+
+        - parameter: 
+            -length:l||l_ll
+            -weight:w || w_ww
+            -unit 
+        -name
+        -image
+        -discription
+        -quantity_stock
+    
+
+ -Item():
+ 
+        - item_quantity:1 
+        - price_unit
+        - id
+        
+        
+
 UseCases:
 ERD:
 DFD:
 Sequence Diagram:
-Test  cases:
+Test cases:

@@ -24,7 +24,7 @@ Requirements:
 3- A cumulative chart should be updated day by day.
 
 Classes and objects:
- -Good():
+ - Good():
 
         - parameter: 
             -length:l||l_ll
@@ -36,15 +36,36 @@ Classes and objects:
         -quantity_stock
     
 
- -Item():
+ - Item():
  
         - item_quantity:1 
         - price_unit
         - id
         
         
+- Bill():
+	- Bid
+ 	- c_name (optional)
+  	- c_phone
+   	- total
+	- discount
+ 	- items
+  	- date
+   	- time
+- User():
+  	- Id
+   	-name
+   	-token
+  	  
+- Admin():
+	- Serial
+- Worker():
+  	- record_day
+  	- delivered
+  	- short
 
-UseCases:
+    
+- UseCases:
 ERD:
 DFD:
 Sequence Diagram:

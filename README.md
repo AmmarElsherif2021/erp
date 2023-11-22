@@ -1,9 +1,10 @@
-"# erp" 
+
+
 Purpose:
-1-ERP app.
-2-General purpose app where quantities required to be managed are customized by the admin.
+ -General purpose ERP app for small businesses.
 
 Requirements:
+
 1-The worker user must be able to perform all sales operations: 
 
 	A- Creating a new bill, each bill has a significant ID, time, customer, and phone number.
@@ -23,7 +24,7 @@ Requirements:
 3- A cumulative chart should be updated day by day.
 
 Classes and objects:
- -Good():
+ - Good():
 
         - parameter: 
             -length:l||l_ll
@@ -31,19 +32,40 @@ Classes and objects:
             -unit 
         -name
         -image
-        -discription
+        -description
         -quantity_stock
     
 
- -Item():
+ - Item():
  
         - item_quantity:1 
         - price_unit
         - id
         
         
+- Bill():
+	- Bid
+ 	- c_name (optional)
+  	- c_phone
+   	- total
+	- discount
+ 	- items
+  	- date
+   	- time
+- User():
+  	- Id
+   	-name
+   	-token
+  	  
+- Admin():
+	- Serial
+- Worker():
+  	- record_day
+  	- delivered
+  	- short
 
-UseCases:
+    
+- UseCases:
 ERD:
 DFD:
 Sequence Diagram:

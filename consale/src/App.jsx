@@ -1,19 +1,49 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-//import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import { createBrowserRouter, Route, Navigate ,Router} from 'react-router-dom';
+import Login from './routes/Login/Login';
+import Start from './routes/Start/Start';
+import Dashboard from './routes/Dashboard/Dasboard';
+import { UserProvider, useUser} from './userContext'; // Import only UserProvider
+import { RouterProvider } from 'react-router-dom';
 
-function App() {
+const Routes=()=>{
+  const {user,setUser} = useUser();
+  useEffect(() => {
+    user?console.log(user.isLogged):console.log('there is no user');
+  }, [user]);
 
- return(
-  <div>
-    <h1>Main</h1>
-  </div>
- )
-  
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Start/>,
+      children:[
+        {
+          path: "Login",
+          element: <Login/>,
+        },
+        {
+          path: "Dashboard",
+          element: user && user.isLogged ? <Dashboard /> : <Navigate to="/Login" />
+        }
+      ]}])
+      return(
+        <RouterProvider router={router} />
+      )
 }
+const App = () => {
+  
+        
+  return(
+    <UserProvider>
+      <Routes/>
+    </UserProvider>
+  )
+};
 
 export default App;
+
+
+
 
 /*
 const [greetMsg, setGreetMsg] = useState("");

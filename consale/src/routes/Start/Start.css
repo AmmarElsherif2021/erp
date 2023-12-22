@@ -1,0 +1,35 @@
+
+.start{
+    background: yellow;
+    width:100vw;
+    min-height:100vh;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5vh;
+    
+}
+.login-btn{
+    position:absolute;
+    left:45vw;
+    width:10vw;
+}
+.layout{
+    background: rgb(81, 101, 128);
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    min-height:100vh;
+}
+.start-header{
+ 
+    background: orange;
+    
+}
+
+.sidebar{
+    background:brown;
+    min-height:100vh;
+    
+}
+.sidebar-list{
+    list-style-type: none;
+}

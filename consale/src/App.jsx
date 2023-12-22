@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, Route, Navigate ,Router} from 'react-router-dom';
 import Login from './routes/Login/Login';
 import Start from './routes/Start/Start';
-import Dashboard from './routes/Dashboard/Dasboard';
-import { UserProvider, useUser} from './userContext'; // Import only UserProvider
+import Dashboard from './routes/Dashboard/Dashboard';
+import AddBill from './routes/AddBill/AddBill';
+import Stock from './routes/Stock/Stock';
+import { UserProvider, useUser} from './userContext'; 
 import { RouterProvider } from 'react-router-dom';
 
 const Routes=()=>{
@@ -17,15 +19,21 @@ const Routes=()=>{
       path: "/",
       element: <Start/>,
       children:[
-        {
-          path: "Login",
-          element: <Login/>,
-        },
+        
+        
         {
           path: "Dashboard",
-          element: user && user.isLogged ? <Dashboard /> : <Navigate to="/Login" />
+          element: user && user.isLogged ? <Dashboard /> : <Navigate to="/" />
         }
-      ]}])
+         ,
+        {
+          path: "AddBill",
+          element: user && user.isLogged ? <AddBill /> : <Navigate to="/" />
+        },
+        {
+          path: "Stock",
+          element: user && user.isLogged ? <Stock/> : <Navigate to="/" />
+        }]}])
       return(
         <RouterProvider router={router} />
       )

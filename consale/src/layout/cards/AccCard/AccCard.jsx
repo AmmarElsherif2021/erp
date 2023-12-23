@@ -13,14 +13,17 @@ import AnonPic from "../../../assets/anon.svg"
 const AccCard=(props)=>{
     return(
     <div className='acc-card'>
-    <div className='card-img'>
-        <img className='card-img' src={AnonPic}/>
-    </div>
-    <div className='card-p'>
-    <h3>{props.w_name}</h3>
-    <p>{props.short}</p> <small>{props.lastClosed}</small>
-    </div>
+
+        <div className='card-header'>
+            <img className='card-img' src={AnonPic}/>
+            <h1>{props.w_name}</h1>
         </div>
+
+        <div className='card-p'>
+            <h4>Short: <span>{props.short}</span> <br/> Last closed: <span>{props.lastClosed}</span> </h4>
+        </div>
+
+    </div>
     )
 }
 export default AccCard;

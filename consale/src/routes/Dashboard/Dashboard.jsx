@@ -12,17 +12,42 @@
 -For further development:Sales cummulative chart.
    
 */
-import { Outlet } from "react-router-dom";
-import './dashboard.css';
 
+import './dashboard.css';
+import axios from 'axios'
 import AccCard from "../../layout/cards/AccCard/AccCard";
+import { useEffect, useState } from "react";
 
 const Dashboard =()=>{
+    const [accounts,setAccounts]=useState([])
+      //fetch accounts
+   
+    const fetchAccounts = async () => {
+        try {
+          const response = await fetch("consale/src/data/accounts.json");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          setAccounts(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    useEffect(()=>{fetchAccounts()},[]);
     return(
         <div className="route-content dashboard">
         <div>
-        <h1>accounts</h1>
-        <AccCard w_name={'Ammar'} short={10} lasClosed={'12:0'} />
+        <h1>Accounts</h1>
+        {accounts? accounts.map((account) => (
+            <AccCard 
+              w_name={account.w_name} 
+              short={account.short} 
+              lastClosed={account.lastClosed} 
+              style={{backgroundColor: account.theme}}
+            />
+          )) : <div></div>}
+          
         </div>
         </div>
     )

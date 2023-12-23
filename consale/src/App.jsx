@@ -7,6 +7,7 @@ import AddBill from './routes/AddBill/AddBill';
 import Stock from './routes/Stock/Stock';
 import { UserProvider, useUser} from './userContext'; 
 import { RouterProvider } from 'react-router-dom';
+import AccCard from './layout/cards/AccCard/AccCard';
 
 const Routes=()=>{
   const {user,setUser} = useUser();
@@ -23,7 +24,8 @@ const Routes=()=>{
         
         {
           path: "Dashboard",
-          element: user && user.isLogged ? <Dashboard /> : <Navigate to="/" />
+          element: user && user.isLogged ? <Dashboard /> : <Navigate to="/" />,
+          
         }
          ,
         {

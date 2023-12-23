@@ -41,8 +41,8 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  
+
 }
 
 a:hover {
@@ -71,13 +71,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
-}
+
 
 input,
 button {
@@ -106,4 +100,7 @@ button {
   button:active {
     background-color: #0f0f0f69;
   }
+}
+.app{
+  min-height:99vh;
 }

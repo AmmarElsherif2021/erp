@@ -1,7 +1,8 @@
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
+import './dashboard.css'
 const Dashboard =()=>{
     return(
-        <div>
+        <div className="route-content dashboard">
         <h1>Dashboard</h1>
        
         </div>

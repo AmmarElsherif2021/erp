@@ -25,22 +25,31 @@ const Start =()=>{
     
     //Side bar routes
     const routesArr=['Dashboard','Stock','Addbill']
+    
     return(
         <UserProvider>
         <div className={startClass}>
-        
-       
-        
-       
-        
+    
         <div className={user.isLogged?'sidebar':'no-sidebar'}>
-        <div className={user.isLogged?'sidebar-header':'start-header'}><h1>con-sale</h1></div>
-        {user.isLogged?<button className='logout-btn' onClick={handleClick}>log out</button>:<button className='login-btn' onClick={handleClick}>log in</button>}
+
+        <div className={user.isLogged?'sidebar-header':'start-header'}>
         
-        {user.isLogged?<ul className='sidebar-list'>{routesArr.map((x)=><li><Link to={`${x}`}>{x}</Link></li>)}</ul>:<br/>}<Outlet />
+        <div><h1>con-sale</h1></div>
+        </div>
+
+        {user.isLogged?
+            <button className='logout-btn' onClick={handleClick}>log out</button>
+            :
+            <button className='login-btn' onClick={handleClick}>log in</button>}
+        
+        {user.isLogged?
+            <ul className='sidebar-list'>{routesArr.map((x)=><li><Link className="sidebar-link" to={`${x}`}>{x}</Link></li>)}</ul>
+            :
+            <br/>}
+            <Outlet />
         
         </div>
-        {user.isLogged?<div className = 'route-viewport'> content </div>:<div></div>}
+        <div></div>
         </div>
         </UserProvider>
         

@@ -1,8 +1,9 @@
 
 .start{
-    background: yellow;
+    background: none;
     width:100vw;
-    min-height:100vh;
+
+    min-height:95vh;
     justify-content: center;
     align-items: center;
     padding-top: 5vh;
@@ -13,23 +14,61 @@
     left:45vw;
     width:10vw;
 }
+.logout-btn{
+    position:absolute;
+    left:7vw;
+    top:90vh;
+    width:10vw;
+}
 .layout{
-    background: rgb(81, 101, 128);
+    background: rgb(209, 213, 218);
     display:grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr;
     min-height:100vh;
 }
 .start-header{
  
-    background: orange;
+    background:none;
     
 }
+.sidebar-header{
+    background:none;
+    color: aliceblue;
 
+}
 .sidebar{
-    background:brown;
+    background:black;
     min-height:100vh;
+    justify-content: center;
+    align-items: center;
     
 }
 .sidebar-list{
     list-style-type: none;
+    background:none;
+    height:55vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 50px;;
+    margin-top: 20px;
+    
 }
+.sidebar-link{
+    color:rgb(255, 255, 255);
+    font-weight: 700;
+    text-decoration: none;
+}
+.start-link{
+    color:rgb(255, 255, 255);
+    font-weight: 700;
+    text-decoration: none;
+}
+.route-content{
+    position:absolute;
+    left:25.5vw;
+    top: 2vh;
+    width:72.5vw;
+    height:97vh;
+  }

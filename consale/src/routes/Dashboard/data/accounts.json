@@ -1,0 +1,20 @@
+[{
+        "wid": 1001,
+        "w_name": "Ammar",
+        "short":10,
+        "last_closed":"01:55",
+        "theme":"rgb(247, 68, 43)"
+},
+{
+        "wid": 1002,
+        "w_name": "Smsm",
+        "short":10,
+        "last_closed":"01:55",
+        "theme":"rgb(217, 68, 3)"},
+{
+        "wid": 1003,
+        "w_name": "Ali",
+        "short":10,
+        "last_closed":"01:55",
+        "theme":"rgb(127, 8, 3)"
+        }]

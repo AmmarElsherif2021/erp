@@ -67,8 +67,9 @@
 }
 .route-content{
     position:absolute;
-    left:25.5vw;
-    top: 2vh;
-    width:72.5vw;
-    height:97vh;
+    left:25vw;
+    top: 8px;
+    width:73vw;
+  
+    height:100%;
   }

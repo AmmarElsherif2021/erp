@@ -13,43 +13,39 @@
    
 */
 
-import './dashboard.css';
+import './Dashboard.css';
 import axios from 'axios'
 import AccCard from "../../layout/cards/AccCard/AccCard";
 import { useEffect, useState } from "react";
+import data from './data/accounts.json';
 
-const Dashboard =()=>{
-    const [accounts,setAccounts]=useState([])
-      //fetch accounts
-   
-    const fetchAccounts = async () => {
-        try {
-          const response = await fetch("consale/src/data/accounts.json");
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          setAccounts(data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    useEffect(()=>{fetchAccounts()},[]);
-    return(
-        <div className="route-content dashboard">
-        <div>
-        <h1>Accounts</h1>
-        {accounts? accounts.map((account) => (
-            <AccCard 
-              w_name={account.w_name} 
-              short={account.short} 
-              lastClosed={account.lastClosed} 
-              style={{backgroundColor: account.theme}}
-            />
-          )) : <div></div>}
-          
-        </div>
-        </div>
-    )
+const Dashboard = () => {
+  const [accounts, setAccounts] = useState([]);
+  useEffect(() => {
+      setAccounts([...data])
+  }, []);
+  useEffect(() => {console.log(`${accounts}-------- >  ${accounts} <-----------`)
+}, [accounts]);
+
+  
+
+  return (
+      <div className="route-content dashboard">
+      <h1>Accounts</h1>
+          <div className="accounts">
+              
+              {Array.isArray(accounts)  ? accounts.map((account) => (
+                  <AccCard 
+                      key={account.wid}
+                      w_name={account.w_name} 
+                      short={account.short} 
+                      lastClosed={account.last_closed} 
+                      style={{backgroundColor: account.theme}}
+                  />
+              )) : <div>No accounts found</div>}
+          </div>
+          <div></div>
+      </div>
+  )
 }
-export default Dashboard
+export default Dashboard;

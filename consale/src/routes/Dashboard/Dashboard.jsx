@@ -12,16 +12,19 @@
 -For further development:Sales cummulative chart.
    
 */
-
+import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
+import addPlus from '../../assets/add-plus.svg'
 import './Dashboard.css';
 import axios from 'axios'
 import AccCard from "../../layout/cards/AccCard/AccCard";
 import { useEffect, useState } from "react";
 import data from './data/accounts.json';
-import AddBtn from '../../layout/AddBtn/AddBtn';
+import AddPop from '../../layout/popups/AddPop/AddPop';
+import AccPop from "../../layout/popups/AccPop/AccPop";
 const Dashboard = () => {
-  
 
+ //Receiver dir. 
+    const appDataDir = BaseDirectory.AppData;
 //accounts state carries accounts.json records
     const [accounts, setAccounts] = useState([]);
     useEffect(() => {
@@ -30,42 +33,60 @@ const Dashboard = () => {
     useEffect(() => {console.log(`-------- >  ${accounts} <-----------`)
     }, [accounts]);
 
-  //add account ------------------------------------------------------
+// Request add account popup:---------------------------------------
+    const [addPop,setAddPop]=useState(false);
+    useEffect(()=>console.log('add account request started/terminated'),[addPop])
+    //terminate add acc. request
+    const cancelAddPop=()=>{
+        setAddPop(false);
+    }
+//add account --------------------------------------------------------
 
     //generate Id
     function generateRandomId() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       }
-  const addAcc=(name,password,confirmPassword)=>{
-    setAccounts((prev)=>[...prev,
-        {
-            wid:generateRandomId(),
-            w_name:name,
-            password:password,
-            
-//To be continued..
-// write on json file
-//continue addBtn
 
-        }
-    ])
-  }
-
+//Acc card popup ------------------------------------------------------
+    const [accPop,setAccPop]=useState(0);
+    const handleCardClick = (e, id) => {
+        e.preventDefault();
+        setAccPop(id);
+      }
+    useEffect(() => {console.log(accPop)},[accPop])
+    useEffect(() => {console.log(accPop)},[accounts]);
+      //cancel Acc card popup-------------------------------------------
+      const cancelAccPop=()=>{
+        setAccPop(0)
+      }
   return (
       <div className="route-content dashboard">
       <h1>Accounts</h1>
+
+          {addPop? <AddPop  cancelAddPop={cancelAddPop}/>:<div></div>}
+          {accPop? <div><AccPop cancelAccPop={cancelAccPop}/></div>:<div></div>}
+          
+
           <div className="accounts">
               
               {Array.isArray(accounts)  ? accounts.map((account) => (
-                  <AccCard 
-                      key={account.wid}
-                      w_name={account.w_name} 
-                      short={account.short} 
-                      lastClosed={account.last_closed} 
-                      style={{backgroundColor: account.theme}}
-                  />
+                <div key={account.wid} onClick={(e)=>handleCardClick(e,account.wid)}>
+                <AccCard 
+                key={account.wid}
+                wid={account.wid}
+                w_name={account.w_name} 
+                short={account.short} 
+                lastClosed={account.last_closed} 
+                style={{backgroundColor: account.theme}} 
+                 />  
+                
+                </div>
+                
+            
+              
               )) : <div>No accounts found</div>}
-              <div><AddBtn/></div>
+              <div><button className='add-acc-btn' onClick={()=>setAddPop(true)}><img className='add-img' src={addPlus}/></button></div>
+             
           </div>
 
           <div></div>

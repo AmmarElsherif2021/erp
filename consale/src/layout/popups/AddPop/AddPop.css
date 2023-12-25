@@ -1,0 +1,26 @@
+.add-pop{
+    width:40vw;
+    height:60vh;
+    position:fixed;
+    left:40vw;
+    top:20vh;
+    background:rgb(189, 189, 189);
+    border:solid black 5px;
+}
+.cancel-add-pop{
+    width:50px;
+    height:50px;
+    position:absolute;
+    top:-25px;
+    left:-25px;
+    border:solid black 5px;
+    background-color: rgb(216, 44, 44);
+    border-radius: 50%;
+
+}
+.cancel-icon{
+    width:40px;
+    position:absolute;
+    left:0;
+    top:0
+}

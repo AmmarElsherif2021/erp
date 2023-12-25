@@ -7,7 +7,7 @@
     padding:20px;
     margin: 10px;;
     border-radius: 15px;
-    background: burlywood;
+    background: rgb(124, 177, 156);
 }
 .card-header{
     display:grid;

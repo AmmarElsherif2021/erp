@@ -1,5 +1,5 @@
 .dashboard{
-    background:orange;
+    background:none;
 }
 .accounts{
     display:grid;
@@ -7,4 +7,14 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     
+}
+.add-acc-btn{
+    width:100px;
+    height:100px;
+    background-color: rgb(75, 128, 75);
+    border:solid black 5px;
+    margin:20px;
+}
+.add-img{
+    width:50px;
 }

@@ -1,3 +1,40 @@
 .stock{
-    background: rgb(64, 148, 64);
+    background:none;
+}
+.stock-table{
+    background:none;
+    justify-content: stretch;
+}
+table{
+    border:solid black 3px; 
+    width: 97%;
+    margin:10px;
+}
+.table-btn{
+    border:solid black 2px;
+    background: none;
+    margin:3px;
+
+}
+th{
+    border-bottom: black dashed 2px;
+}
+.stock-header{
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+    background: none;
+    margin:10px;
+}
+.search-input{
+    width:90%;
+    min-width:90%;
+    border:solid black 2px;
+    margin:3px; 
+    
+
+}
+.add-stock{
+    border:solid black 2px;
+    background: rgb(30, 99, 70);
+    margin:3px; 
 }

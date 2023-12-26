@@ -48,29 +48,34 @@ const Dashboard = () => {
       }
 
 //Acc card popup ------------------------------------------------------
-    const [accPop,setAccPop]=useState(0);
+    const [accPop,setAccPop]=useState({});
     const handleCardClick = (e, id) => {
         e.preventDefault();
-        setAccPop(id);
+        const selected=accounts.filter((x)=>x.wid==id)
+        setAccPop(selected[0]);
+        console.log(`accPop ----->${accPop}`)
       }
-    useEffect(() => {console.log(accPop)},[accPop])
-    useEffect(() => {console.log(accPop)},[accounts]);
+    useEffect(() => {console.log({...accPop})},[accPop])
+    useEffect(() => {console.log({...accPop})},[accounts]);
       //cancel Acc card popup-------------------------------------------
       const cancelAccPop=()=>{
-        setAccPop(0)
+        setAccPop({})
+        console.log(`accPop ----->${accPop}`)
       }
   return (
       <div className="route-content dashboard">
       <h1>Accounts</h1>
 
           {addPop? <AddPop  cancelAddPop={cancelAddPop}/>:<div></div>}
-          {accPop? <div><AccPop cancelAccPop={cancelAccPop}/></div>:<div></div>}
+          {accPop.wid?  <AccPop w_name={accPop.w_name} short={accPop.short} lastClosed={accPop.last_closed} cancelAccPop={cancelAccPop}/>:<div></div>}
           
 
           <div className="accounts">
               
               {Array.isArray(accounts)  ? accounts.map((account) => (
-                <div key={account.wid} onClick={(e)=>handleCardClick(e,account.wid)}>
+                <div key={account.wid} 
+                onClick={
+                (e)=>{ handleCardClick(e, account.wid);}}>
                 <AccCard 
                 key={account.wid}
                 wid={account.wid}

@@ -22,16 +22,23 @@ th{
 .stock-header{
     display: grid;
     grid-template-columns: 1fr 6fr;
-    background: none;
+    background: rgb(0, 0, 0);
     margin:10px;
+    max-width:71vw;
+
 }
 .search-input{
     width:90%;
-    min-width:90%;
+    min-width:50vw;
     border:solid black 2px;
     margin:3px; 
-    
+    background-color: none;
+    position: relative;
+    left:10vw;
 
+}
+.search-input:focus {
+    border-color: rgb(39, 102, 99);
 }
 .add-stock{
     border:solid black 2px;

@@ -2,15 +2,16 @@ import { useState,useEffect } from 'react';
 import './Stock.css';
 import ItemPop from '../../layout/popups/ItemPop/ItemPop';
 import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
+import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
 const Stock =()=>{
-    //stock data
+    //stock data ---------------------------------------------
     const [stockData,setStockData] = useState([
         {
                 id: '101',
                 parameter: 'unit',
                 name: 'item1',
                 image: '',
-                description: 'it is a discription of the item1',
+                discription: 'it is a discription of the item1',
                 quantity_stock: 100,
                 price_unit: 20,
                 unit:'unit',
@@ -24,7 +25,7 @@ const Stock =()=>{
             unit: 'm',
             name: 'item2',
             image: '',
-            description: 'it is a discription of the item2',
+            discription: 'it is a discription of the item2',
             quantity_stock: 20,
             price_unit: 293,
             available:200
@@ -36,7 +37,7 @@ const Stock =()=>{
         unit: 'kg',
         name: 'Example Name',
         image: '',
-        description: 'it is a discription of the item3',
+        discription: 'it is a discription of the item3',
         quantity_stock: 60,
         price_unit: 620,
         available:200
@@ -44,7 +45,7 @@ const Stock =()=>{
     },
     ]);
 
-    //Edit an item popup
+    //Edit an item popup ----------------------------------
         const [itemPop,setItemPop]=useState({});
         const handleItemEdit=(e,iid)=>{
             e.preventDefault();
@@ -58,44 +59,90 @@ const Stock =()=>{
             setItemPop({})
             console.log(`ItemPop ----->${{...itemPop}}`)
         };
-        
-    //Delete Item
-    const [delItemPop,setDelItemPop]=useState({});
-    const handleItemDel=(e,iid)=>{
-        e.preventDefault();
-        const items= stockData.filter((x)=>x.id==iid)
-        setDelItemPop({...items[0]})
-    };
-    // delete item pop:
-    const cancelDelItemPop=()=>{
-        setDelItemPop({})
-        console.log(`ItemPop ----->${{...delItemPop}}`)
-    };
-    const confirmDelItem=(e,iid)=>{
-        e.preventDefault();
-        const newStock=stockData.filter((x)=>x.id!=iid);
-        setStockData([...newStock]);
-        setDelItemPop({});
-    }
-    useEffect(()=>console.log([...stockData]),[delItemPop])
-    useEffect(()=>console.log([...stockData]),[stockData])
 
+
+        
+    //Delete Item --------------------------------------
+        const [delItemPop,setDelItemPop]=useState({});
+        const handleItemDel=(e,iid)=>{
+            e.preventDefault();
+            const items= stockData.filter((x)=>x.id==iid)
+            setDelItemPop({...items[0]})
+        };
+        // delete item pop:
+        const cancelDelItemPop=()=>{
+            setDelItemPop({})
+            console.log(`ItemPop ----->${{...delItemPop}}`)
+        };
+        const confirmDelItem=(e,iid)=>{
+            e.preventDefault();
+            const newStock=stockData.filter((x)=>x.id!=iid);
+            setStockData([...newStock]);
+            setDelItemPop({});
+        }
+        useEffect(()=>console.log([...stockData]),[delItemPop])
+        useEffect(()=>console.log([...stockData]),[stockData])
+
+    
+ // Add item pop:
+        const [addedItemPop,setAddedItemPop]=useState({});
+        const cancelAddItemPop=()=>{
+            setAddedItemPop({})
+            console.log(`AddedItemPop ----->${{...addedItemPop}}`)
+        };
+        //generate Id
+        function generateRandomId() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+        const handleAddItemClick=(e)=>{
+            e.preventDefault();
+            const newId=generateRandomId();
+            setAddedItemPop({
+                id: newId,
+                parameter: '',
+                name: '',
+                image: '',
+                discription: '',
+                quantity_stock: 0,
+                price_unit: 0,
+                unit:'',
+                available:0
+            })
+        }
+        const handleSubmit = (e,newAdded) => {
+            e.preventDefault(e);
+            setAddedItemPop((prev)=>({
+                id:prev.id,
+                ...{...newAdded}
+
+            }))
+           
+            console.log(addedItemPop);
+          
+            
+            setStockData((prev)=>[...prev,newAdded]);
+            setAddedItemPop({});
+        }
+        useEffect(()=>console.log([...stockData]),[addedItemPop]);
+        useEffect(()=>console.log([...stockData]),[stockData]);
+    
 
     return(
     <div className="route-content stock">
     {itemPop && itemPop.id?
     <ItemPop cancelItemPop={cancelItemPop} id={itemPop.id} 
-    img={itemPop.image} name={itemPop.name} unit={itemPop.unit} 
+    img={itemPop.image} name={itemPop.name} discription={itemPop.discription} unit={itemPop.unit} 
     priceUnit={itemPop.price_unit} available={itemPop.available}/>
     :
     <div></div>}
     {
         delItemPop&& delItemPop.id?<DelItemPop confirmDelItem={confirmDelItem} 
         cancelDelItemPop={cancelDelItemPop} name={delItemPop.name} id={delItemPop.id}/>:<div></div>}
-    
+    {addedItemPop && addedItemPop.id?<AddItemPop cancelAddItemPop={cancelAddItemPop} />:<div></div>}
     <h1>Stock</h1>
+    
     <div className='stock-header'>
-    <button className='add-stock'>Add</button>
+    
     <input className='search-input' type="text" name="search" placeholder='search items'/>
     </div>
     <div className='stock-table'>
@@ -105,9 +152,10 @@ const Stock =()=>{
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Description</th>
+            <th>Discription</th>
             <th>Quantity Stock</th>
             <th>Price Unit</th>
+            <th><button onClick={(e)=>handleAddItemClick(e)} className='add-stock'>Add</button></th>
         </tr>
     </thead>
     <tbody>
@@ -115,7 +163,7 @@ const Stock =()=>{
             <tr key={index}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
-                <td>{item.description}</td>
+                <td>{item.discription}</td>
                 <td>{item.quantity_stock}</td>
                 <td>{item.price_unit}</td>
                 <td>

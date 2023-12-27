@@ -1,6 +1,7 @@
 .acc-card{
     max-width:20vw;
-    max-height:20vh;
+    max-height:30vh;
+    overflow: hidden;
     border: 5px solid black;
     display: grid;
     grid-template-rows: 2fr 1fr;

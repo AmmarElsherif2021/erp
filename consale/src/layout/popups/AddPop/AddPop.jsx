@@ -1,4 +1,4 @@
-import './AddPop.css';
+import './AddPop.css'; 
 import cancelIcon from '../../../assets/cancel.svg'
 const AddPop=({cancelAddPop})=>{
     return(

@@ -1,40 +1,76 @@
 .add-bill{
-    background: none;
+    background: firebrick;
     display:grid;
     grid-template-rows:1fr 9fr;
+    width:73vw;
+    box-sizing: border-box;
 }
 .add-bill-sections{
     background: none;
     display:grid;
+    width:73vw;
+    box-sizing: border-box;
+    overflow: hidden;
     grid-template-columns:2fr 1fr;
+    background: blue;
+   
 }
 .new-bill-section{
-    background: none;
-    border-right:dotted 5px black
-
+    background:none;
+    border-right:dotted 5px black;
+    display:grid;
+    grid-template-rows:1fr 9fr;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    
 }
 .old-bills-section{
     background: none;
+    display:grid;
+    grid-template-rows:1fr 9fr;
+    align-items: center;
     box-sizing: border-box;
     justify-content: center;
 
 }
+.section-header{
+    box-sizing: border-box;
+    padding:0;
+    background: #35443d;
+    width:90%;
+    max-width: 90%;
+    overflow: hidden;
+    justify-content: start;
+
+
+}
 
 .search-input{
+
+    max-width: 40vw;
     width:90%;
     border:solid black 2px;
-    margin:5px; 
-    box-sizing: border-box;
+    position:absolute;
+    left:0;
+    top:0;
+
+
+
+   
 }
 .new-bill-space{
     background: rgb(255, 196, 0);
-    width:100%;
+    display:grid;
+    grid-template-rows:1fr 9fr;
     height:88%;
     max-height:90%;
+    box-sizing: border-box;
+    align-items: center;
 }
 .old-bills-space{
     background: #00cc66;
-    width:100%;
+
     height:88%;
     max-height:90%;
 }

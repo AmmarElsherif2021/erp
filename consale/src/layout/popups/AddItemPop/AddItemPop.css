@@ -76,9 +76,22 @@
     flex-direction: column;
     border: solid 2px black;
     align-items:end;
-    justify-content:start;
+    justify-content:space-between;
 }
 .add-item-parameters{
     display:flex;
     flex-direction:row;
+}
+.second-radios{
+    background:none;
+  
+}
+.labels{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    background: none;
+    width:35vw;
+    min-width: 90%;
+    
 }

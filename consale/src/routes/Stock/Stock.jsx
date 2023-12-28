@@ -3,6 +3,23 @@ import './Stock.css';
 import ItemPop from '../../layout/popups/ItemPop/ItemPop';
 import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
 import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
+
+/* 
+    Stock table page ought to allow user to add, set parameters and infos, edit, delete items:
+    States:
+            [stockData,setStockData] ---> state handles stock data
+                -func: -confirmDelItem(e,iid) 
+                       -handleAddSubmit(newAdded)
+                       
+            [itemPop,setItemPop]  --->Edit Item data
+                -func: -handleItemEdit(e,iid)
+                       -cancelItemPop()
+            [delItemPop,setDelItemPop] ---> Delete item pop
+                -func: -handleItemDel(e,iid)
+                       -cancelDelItemPop()
+                        confirmDelItem(e,iid)
+
+*/
 const Stock =()=>{
     //stock data ---------------------------------------------
     const [stockData,setStockData] = useState([
@@ -15,7 +32,7 @@ const Stock =()=>{
                 quantity_stock: 100,
                 price_unit: 20,
                 unit:'unit',
-                available:200
+                
             
         },
         // Add more objects for more rows
@@ -30,22 +47,23 @@ const Stock =()=>{
             price_unit: 293,
             available:200
         
-    },
-    {
-        id: '103',
-        parameter: 'weight',
-        unit: 'kg',
-        name: 'Example Name',
-        image: '',
-        discription: 'it is a discription of the item3',
-        quantity_stock: 60,
-        price_unit: 620,
-        available:200
-    
-    },
-    ]);
+             },
+            {
+                id: '103',
+                parameter: 'weight',
+                unit: 'kg',
+                name: 'Example Name',
+                image: '',
+                discription: 'it is a discription of the item3',
+                quantity_stock: 60,
+                price_unit: 620,
+                available:200
+            
+            },
+            ]);
 
-    //Edit an item popup ----------------------------------
+
+    //Edit an item popup ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         const [itemPop,setItemPop]=useState({});
         const handleItemEdit=(e,iid)=>{
             e.preventDefault();
@@ -62,7 +80,7 @@ const Stock =()=>{
 
 
         
-    //Delete Item --------------------------------------
+//Delete Item |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         const [delItemPop,setDelItemPop]=useState({});
         const handleItemDel=(e,iid)=>{
             e.preventDefault();
@@ -84,7 +102,7 @@ const Stock =()=>{
         useEffect(()=>console.log([...stockData]),[stockData])
 
     
- // Add item pop:
+ // Add item pop:|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         const [addedItemPop,setAddedItemPop]=useState({});
         const cancelAddItemPop=()=>{
             setAddedItemPop({})
@@ -92,13 +110,13 @@ const Stock =()=>{
         };
         //generate Id
         function generateRandomId() {
-            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            return  Math.random().toString(36).substring(2, 15);
         }
         const handleAddItemClick=(e)=>{
             e.preventDefault();
             const newId=generateRandomId();
             setAddedItemPop({
-                id: newId,
+                id: newId.toString(),
                 parameter: '',
                 name: '',
                 image: '',
@@ -109,23 +127,32 @@ const Stock =()=>{
                 available:0
             })
         }
-        const handleSubmit = (e,newAdded) => {
-            e.preventDefault(e);
-            setAddedItemPop((prev)=>({
-                id:prev.id,
-                ...{...newAdded}
 
-            }))
-           
-            console.log(addedItemPop);
-          
-            
-            setStockData((prev)=>[...prev,newAdded]);
+        //confirm add submit
+        const handleAddSubmit =(newAdded)=> {
+             // Destructure the id out of newAdded
+            const { id, ...restOfNewAdded } = newAdded;
+            // Update addedItemPop state
+            setAddedItemPop(prev => ({
+                id: prev.id,
+                ...restOfNewAdded
+            }));
+        
+            // Add new item to stockData
+            setStockData(prev => [...prev, newAdded]);
+        
+            // Reset addedItemPop state
             setAddedItemPop({});
-        }
-        useEffect(()=>console.log([...stockData]),[addedItemPop]);
+        };
+        
+        useEffect(()=>console.log(`added -- >   ${{...addedItemPop}}`),[addedItemPop]);
         useEffect(()=>console.log([...stockData]),[stockData]);
     
+
+
+
+
+
 
     return(
     <div className="route-content stock">
@@ -138,7 +165,12 @@ const Stock =()=>{
     {
         delItemPop&& delItemPop.id?<DelItemPop confirmDelItem={confirmDelItem} 
         cancelDelItemPop={cancelDelItemPop} name={delItemPop.name} id={delItemPop.id}/>:<div></div>}
-    {addedItemPop && addedItemPop.id?<AddItemPop cancelAddItemPop={cancelAddItemPop} />:<div></div>}
+    {addedItemPop && addedItemPop.id?
+        <AddItemPop 
+        handleAddSubmit={handleAddSubmit} 
+        cancelAddItemPop={cancelAddItemPop} 
+        generateRandomId={generateRandomId}
+        />:<div></div>}
     <h1>Stock</h1>
     
     <div className='stock-header'>
@@ -153,6 +185,7 @@ const Stock =()=>{
             <th>ID</th>
             <th>Name</th>
             <th>Discription</th>
+            <th>Unit</th>
             <th>Quantity Stock</th>
             <th>Price Unit</th>
             <th><button onClick={(e)=>handleAddItemClick(e)} className='add-stock'>Add</button></th>
@@ -164,6 +197,7 @@ const Stock =()=>{
                 <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.discription}</td>
+                <td>{item.unit}</td>
                 <td>{item.quantity_stock}</td>
                 <td>{item.price_unit}</td>
                 <td>

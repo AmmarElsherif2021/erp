@@ -2,10 +2,11 @@
     width:50vw;
     height:60vh;
     position:fixed;
-    left:35vw;
+    left:40vw;
     top:15vh;
     background:rgb(151, 199, 177);
     border:solid black 5px;
+    z-index:1000;
 }
 .cancel-item-pop{
     width:50px;

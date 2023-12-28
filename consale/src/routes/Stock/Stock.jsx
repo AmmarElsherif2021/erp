@@ -4,6 +4,11 @@ import ItemPop from '../../layout/popups/ItemPop/ItemPop';
 import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
 import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
 
+//searhbar imports
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 /* 
     Stock table page ought to allow user to add, set parameters and infos, edit, delete items:
     States:
@@ -63,7 +68,7 @@ const Stock =()=>{
             ]);
 
 
-    //Edit an item popup ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//Edit an item popup ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         const [itemPop,setItemPop]=useState({});
         const handleItemEdit=(e,iid)=>{
             e.preventDefault();
@@ -148,69 +153,101 @@ const Stock =()=>{
         useEffect(()=>console.log(`added -- >   ${{...addedItemPop}}`),[addedItemPop]);
         useEffect(()=>console.log([...stockData]),[stockData]);
     
+//Search |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        const [searchTerm, setSearchTerm] = useState('');
+
+        const handleSearchChange = (event, newValue) => {
+        event.preventDefault();
+        setSearchTerm(newValue ? newValue.name : '');
+        };
+
+        const filteredData = stockData.filter((stock) =>
+            searchTerm
+                ? stock.name && stock.name.toLowerCase().includes(searchTerm.toLowerCase())
+                : true
+            );
 
 
+//MUI table grid|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Name', width: 130 },
+    { field: 'description', headerName: 'Description', width: 130 },
+    { field: 'unit', headerName: 'Unit', width: 130 },
+    { field: 'quantity_stock', headerName: 'Quantity Stock', width: 130 },
+    { field: 'price_unit', headerName: 'Price Unit', width: 130 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 200,
+      renderCell: (params) => (
+        <>
+          <Button variant="contained" color="primary" onClick={(e) => handleItemEdit(e, params.row.id)}>
+            Edit
+          </Button>
+          <Button variant="contained" color="secondary" onClick={(e) => handleItemDel(e, params.row.id)}>
+            -
+          </Button>
+        </>
+      ),
+    },
+  ];
 
-
-
+//||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
+//|||||||||||||||||||||||||||||||||||||||#|||##||||#||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||##||##||##||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||||#|##|#||||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
 
     return(
     <div className="route-content stock">
+
     {itemPop && itemPop.id?
     <ItemPop cancelItemPop={cancelItemPop} id={itemPop.id} 
     img={itemPop.image} name={itemPop.name} discription={itemPop.discription} unit={itemPop.unit} 
     priceUnit={itemPop.price_unit} available={itemPop.available}/>
     :
-    <div></div>}
+    <div></div>
+    }
+    
+    
     {
         delItemPop&& delItemPop.id?<DelItemPop confirmDelItem={confirmDelItem} 
-        cancelDelItemPop={cancelDelItemPop} name={delItemPop.name} id={delItemPop.id}/>:<div></div>}
-    {addedItemPop && addedItemPop.id?
+        cancelDelItemPop={cancelDelItemPop} name={delItemPop.name} id={delItemPop.id}/>:<div></div>
+    }
+    
+    
+    {
+        addedItemPop && addedItemPop.id?
         <AddItemPop 
         handleAddSubmit={handleAddSubmit} 
         cancelAddItemPop={cancelAddItemPop} 
         generateRandomId={generateRandomId}
-        />:<div></div>}
+        />:<div></div>
+    }
+
+
     <h1>Stock</h1>
     
     <div className='stock-header'>
     
-    <input className='search-input' type="text" name="search" placeholder='search items'/>
+    <Autocomplete
+    className='search-input'
+    style={{backgroundColor:"#ffffff"}}
+    disablePortal
+    id="combo-box-demo"
+    options={stockData}
+    getOptionLabel={(option) => option.name}
+    onInputChange={handleSearchChange}
+    sx={{ width: 300 }}
+    renderInput={(params) => <TextField {...params} label="stock" />}
+  />
     </div>
     <div className='stock-table'>
-     
-    <table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Discription</th>
-            <th>Unit</th>
-            <th>Quantity Stock</th>
-            <th>Price Unit</th>
-            <th><button onClick={(e)=>handleAddItemClick(e)} className='add-stock'>Add</button></th>
-        </tr>
-    </thead>
-    <tbody>
-        {stockData.map((item, index) => (
-            <tr key={index}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.discription}</td>
-                <td>{item.unit}</td>
-                <td>{item.quantity_stock}</td>
-                <td>{item.price_unit}</td>
-                <td>
-                 <button className='table-btn' style={{backgroundColor: "#ff5c33"
-                    }} onClick={(e)=>handleItemDel(e,item.id)}>-</button>
-                 <button className='table-btn' style={{backgroundColor: "#00994d"
-                }} onClick={(e)=>handleItemEdit(e,item.id)} >
-                edit</button>
-                </td>
-            </tr>
-        ))}
-    </tbody>
-</table>
+    <DataGrid rows={filteredData} columns={columns} pageSize={5} />
 
     </div>
     </div>

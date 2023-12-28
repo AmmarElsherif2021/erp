@@ -35,11 +35,10 @@
 
 }
 .section-header{
-    box-sizing: border-box;
-    padding:0;
+
     background: #35443d;
-    width:90%;
-    max-width: 90%;
+    display:grid;
+    grid-template-columns: 1fr;
     overflow: hidden;
     justify-content: start;
 

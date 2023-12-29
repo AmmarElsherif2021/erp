@@ -5,10 +5,27 @@ import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
 import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
 
 //searhbar imports
+import BootstrapTable from 'react-bootstrap-table-next';
+import ToolkitProvider, { Search,SearchBar } from 'react-bootstrap-table2-toolkit';
+
+const MyTableComponent = (props) => {
+    return (
+      <div>
+        <h3>Input something at below input field:</h3>
+        <SearchBar {...props.searchProps} />
+        <hr />
+        <BootstrapTable {...props.baseProps} />
+      </div>
+    );
+  };
+  
+
+/*
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+/* */
 /* 
     Stock table page ought to allow user to add, set parameters and infos, edit, delete items:
     States:
@@ -26,6 +43,7 @@ import TextField from '@mui/material/TextField';
 
 */
 const Stock =()=>{
+   
     //stock data ---------------------------------------------
     const [stockData,setStockData] = useState([
         {
@@ -154,102 +172,103 @@ const Stock =()=>{
         useEffect(()=>console.log([...stockData]),[stockData]);
     
 //Search |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        // Search functionality
         const [searchTerm, setSearchTerm] = useState('');
 
-        const handleSearchChange = (event, newValue) => {
-        event.preventDefault();
-        setSearchTerm(newValue ? newValue.name : '');
+        // No need for a separate filteredData state, as react-bootstrap-table-next handles filtering internally
+
+        const handleSearchChange = (value) => {
+            setSearchTerm(value);
         };
 
-        const filteredData = stockData.filter((stock) =>
-            searchTerm
-                ? stock.name && stock.name.toLowerCase().includes(searchTerm.toLowerCase())
-                : true
-            );
+        useEffect(()=>console.log('search term'),[searchTerm])
+        //useEffect(() => console.log('search term'), [searchTerm, filteredData]);
 
-
-//MUI table grid|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//table grid|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'description', headerName: 'Description', width: 130 },
-    { field: 'unit', headerName: 'Unit', width: 130 },
-    { field: 'quantity_stock', headerName: 'Quantity Stock', width: 130 },
-    { field: 'price_unit', headerName: 'Price Unit', width: 130 },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 200,
-      renderCell: (params) => (
-        <>
-          <Button variant="contained" color="primary" onClick={(e) => handleItemEdit(e, params.row.id)}>
-            Edit
-          </Button>
-          <Button variant="contained" color="secondary" onClick={(e) => handleItemDel(e, params.row.id)}>
-            -
-          </Button>
-        </>
-      ),
-    },
-  ];
-
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'name', headerName: 'Name', width: 130 },
+  { field: 'description', headerName: 'Description', width: 130 },
+  { field: 'unit', headerName: 'Unit', width: 130 },
+  { field: 'quantity_stock', headerName: 'Quantity Stock', width: 130 },
+  { field: 'price_unit', headerName: 'Price Unit', width: 130 },
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    width: 200,
+    renderCell: (params) => (
+      <div>
+        <Button variant="contained" color="primary" onClick={(e) => handleItemEdit(e, params.row.id)}>
+          Edit
+        </Button>
+        <Button variant="contained" color="secondary" onClick={(e) => handleItemDel(e, params.row.id)}>
+          -
+        </Button>
+      </div>
+    ),
+  },
+]
 //||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
-//|||||||||||||||||||||||||||||||||||||||#|||##||||#||||||||||||||||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||||||||||||||#|||##||||#||||||||||||||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||##||##||##||||||||||||||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||||#|##|#||||||||||||||||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||||||##||||||||||||||||||||||||||||||||||||||||||||||
 
     return(
-    <div className="route-content stock">
+    
+    
+   
 
+   
+
+
+    <div className="route-content stock"> 
     {itemPop && itemPop.id?
-    <ItemPop cancelItemPop={cancelItemPop} id={itemPop.id} 
-    img={itemPop.image} name={itemPop.name} discription={itemPop.discription} unit={itemPop.unit} 
-    priceUnit={itemPop.price_unit} available={itemPop.available}/>
-    :
-    <div></div>
-    }
+        <ItemPop cancelItemPop={cancelItemPop} id={itemPop.id} 
+        img={itemPop.image} name={itemPop.name} discription={itemPop.discription} unit={itemPop.unit} 
+        priceUnit={itemPop.price_unit} available={itemPop.available}/>
+        :
+        <div></div>
+        }
+        
+        
+        {
+            delItemPop&& delItemPop.id?<DelItemPop confirmDelItem={confirmDelItem} 
+            cancelDelItemPop={cancelDelItemPop} name={delItemPop.name} id={delItemPop.id}/>:<div></div>
+        }
+        
+        
+        {
+            addedItemPop && addedItemPop.id?
+            <AddItemPop 
+            handleAddSubmit={handleAddSubmit} 
+            cancelAddItemPop={cancelAddItemPop} 
+            generateRandomId={generateRandomId}
+            />:<div></div>
+        }
+        <h1>Stock</h1>
     
+        <ToolkitProvider keyField="id" data={stockData} columns={columns} search>
+        <MyTableComponent
+        {...props}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        />
+        </ToolkitProvider>
+      </div>
     
-    {
-        delItemPop&& delItemPop.id?<DelItemPop confirmDelItem={confirmDelItem} 
-        cancelDelItemPop={cancelDelItemPop} name={delItemPop.name} id={delItemPop.id}/>:<div></div>
-    }
-    
-    
-    {
-        addedItemPop && addedItemPop.id?
-        <AddItemPop 
-        handleAddSubmit={handleAddSubmit} 
-        cancelAddItemPop={cancelAddItemPop} 
-        generateRandomId={generateRandomId}
-        />:<div></div>
-    }
-
-
-    <h1>Stock</h1>
-    
-    <div className='stock-header'>
-    
-    <Autocomplete
-    className='search-input'
-    style={{backgroundColor:"#ffffff"}}
-    disablePortal
-    id="combo-box-demo"
-    options={stockData}
-    getOptionLabel={(option) => option.name}
-    onInputChange={handleSearchChange}
-    sx={{ width: 300 }}
-    renderInput={(params) => <TextField {...params} label="stock" />}
-  />
-    </div>
-    <div className='stock-table'>
-    <DataGrid rows={filteredData} columns={columns} pageSize={5} />
-
-    </div>
-    </div>
 )}
 export default Stock
+
+
+
+
+
+
+
+
+
+

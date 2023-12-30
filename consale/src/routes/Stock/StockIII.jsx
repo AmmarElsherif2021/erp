@@ -5,11 +5,31 @@ import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
 import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
 
 //searhbar imports
-import DataTable from 'react-data-table-component';
+import {Grid} from 'react-grid-data';
+import  {useGridData}  from 'react-grid-data'
 
 
 
+/*const MyTableComponent = (props) => {
+    const { searchTerm, setSearchTerm } = props;
+  
+    return (
+      <div>
+        <h3>Input something at below input field:</h3>
+        <SearchBar {...props.searchProps} />
+        <hr />
+        <BootstrapTable {...props.baseProps} />
+      </div>
+    );
+  };*/
+  
 
+/*
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+/* */
 /* 
     Stock table page ought to allow user to add, set parameters and infos, edit, delete items:
     States:
@@ -26,64 +46,32 @@ import DataTable from 'react-data-table-component';
                         confirmDelItem(e,iid)
 
 */
-
-const FilterComponent = ({ filterText, onFilter, onClear }) => (
-    <div>
-      <input id="search" type="text" placeholder="Filter By Name" aria-label="Search Input" value={filterText} onChange={onFilter} />
-      <button onClick={onClear}>X</button>
-    </div>
-  );
 const Stock =()=>{
    
     //stock data ---------------------------------------------
     const columns = [
+        { key: 'id', name: 'ID', width: 70 },
+        { key: 'name', name: 'Name', width: 130 },
+        { key: 'description', name: 'Description', width: 130 },
+        { key: 'unit', name: 'Unit', width: 130 },
+        { key: 'quantity_stock', name: 'Quantity Stock', width: 130 },
+        { key: 'price_unit', name: 'Price Unit', width: 130 },
         {
-          name: 'ID',
-          selector: 'id',
-          width: '70px',
-        },
-        {
-          name: 'Name',
-          selector: 'name',
-          width: '130px',
-        },
-        {
-          name: 'Description',
-          selector: 'description',
-          width: '130px',
-        },
-        {
-          name: 'Unit',
-          selector: 'unit',
-          width: '130px',
-        },
-        {
-          name: 'Quantity Stock',
-          selector: 'quantity_stock',
-          width: '130px',
-        },
-        {
-          name: 'Price Unit',
-          selector: 'price_unit',
-          width: '130px',
-        },
-        {
+          key: 'actions',
           name: 'Actions',
-          selector: 'actions',
-          width: '200px',
-          cell: (row) => (
+          width: 200,
+          formatter: ({ rowIdx }) => (
             <div>
-              <button variant="contained" color="primary" onClick={(e) => handleItemEdit(e, row.id)}>
+              <Button variant="contained" color="primary" onClick={(e) => handleItemEdit(e, rows[rowIdx].id)}>
                 Edit
-              </button>
-              <button variant="contained" color="secondary" onClick={(e) => handleItemDel(e, row.id)}>
+              </Button>
+              <Button variant="contained" color="secondary" onClick={(e) => handleItemDel(e, rows[rowIdx].id)}>
                 -
-              </button>
+              </Button>
             </div>
           ),
         },
       ];
-      
     const [stockData,setStockData] = useState([
         {
                 id: '101',
@@ -211,26 +199,23 @@ const Stock =()=>{
         useEffect(()=>console.log([...stockData]),[stockData]);
     
 //Search |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-        const [filterText, setFilterText] = useState('');
-        const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-        const filteredItems = stockData.filter(
-            item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()),
-        );
+        // Search functionality
+        const [searchTerm, setSearchTerm] = useState('');
 
-        const subHeaderComponentMemo = useMemo(() => {
-            const handleClear = () => {
-                if (filterText) {
-                    setResetPaginationToggle(!resetPaginationToggle);
-                    setFilterText('');
-                }
-            };
-    
-            return (
-                <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
-            );
-        }, [filterText, resetPaginationToggle]);
+        const filteredData = useMemo(() => {
+            // Apply filtering based on search term if needed
+            return stockData;
+          }, [stockData]); // Dependency array for useMemo
+        
+          const gridData = useGridData(
+            {
+                data: filteredData,
+                columns:columns
+            }
+          )
 
-
+        useEffect(()=>console.log('search term'),[searchTerm])
+        //useEffect(() => console.log('search term'), [searchTerm, filteredData]);
 
 //table grid|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -270,19 +255,18 @@ const Stock =()=>{
             />:<div></div>
         }
         <h1>Stock</h1>
-        <div>
-            <DataTable
-                columns={columns}
-                data={filteredItems}
-              
-                pagination
-                paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-                subHeader
-                subHeaderComponent={subHeaderComponentMemo}
-                selectableRows
-                persistTableHead
-            />
-        </div>
+      {/*<ToolkitProvider keyField="id" data={stockData} columns={columns} search>
+        {(props) => (
+          <MyTableComponent
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            {...props}
+          />
+        )}
+        </ToolkitProvider>*/}
+        <Grid
+      rows={gridData.rows}
+      columns={gridData.columns}/>
       </div>
     
 )}

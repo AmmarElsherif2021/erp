@@ -1,5 +1,5 @@
 .add-bill{
-    background: firebrick;
+    background:none;
     display:grid;
     grid-template-rows:1fr 9fr;
     width:73vw;
@@ -12,7 +12,7 @@
     box-sizing: border-box;
     overflow: hidden;
     grid-template-columns:2fr 1fr;
-    background: blue;
+  
    
 }
 .new-bill-section{

@@ -3,8 +3,9 @@ import './Stock.css';
 import ItemPop from '../../layout/popups/ItemPop/ItemPop';
 import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
 import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
-
-//searhbar imports
+import addPlus from '../../assets/add-plus.svg'
+import cancelIcon from '../../assets/cancel.svg';
+//searchbar and teble imports
 import DataTable from 'react-data-table-component';
 
 
@@ -27,15 +28,19 @@ import DataTable from 'react-data-table-component';
 
 */
 
+//search bar
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
-    <div>
-      <input id="search" type="text" placeholder="Filter By Name" aria-label="Search Input" value={filterText} onChange={onFilter} />
-      <button onClick={onClear}>X</button>
+    <div className='filter-component'>
+      
+      <input className="search-table" id="search" type="text" placeholder="Filter By Name" aria-label="Search Input" value={filterText} onChange={onFilter} />
+      <button className='cancel'  onClick={onClear}><img className='cancel-icon' src={cancelIcon}/></button>
+      
     </div>
   );
 const Stock =()=>{
    
-    //stock data ---------------------------------------------
+//stock data ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    //table columns
     const columns = [
         {
           name: 'ID',
@@ -270,11 +275,15 @@ const Stock =()=>{
             />:<div></div>
         }
         <h1>Stock</h1>
+        <div className='add-stock'>
+            <h3>Add new item</h3>
+            <div><button className='add-item-btn' onClick={(e)=>handleAddItemClick(e)}><img className='add-img' src={addPlus}/></button></div>
+        </div>
         <div>
             <DataTable
                 columns={columns}
                 data={filteredItems}
-              
+                className='data-table'
                 pagination
                 paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
                 subHeader

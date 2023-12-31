@@ -5,20 +5,23 @@
     background:none;
     justify-content: stretch;
 }
-table{
-    border:solid black 3px; 
-    width: 97%;
-    margin:10px;
+.input{
+  
+    border:black solid 3px;
+    
+  
+  }
+.input:focus {
+    border-color: rgb(39, 102, 99);
 }
+
 .table-btn{
     border:solid black 2px;
     background: none;
     margin:3px;
 
 }
-th{
-    border-bottom: black dashed 2px;
-}
+
 .stock-header{
     display: grid;
     grid-template-columns: 1fr 6fr;
@@ -28,13 +31,13 @@ th{
 
 }
 .search-input{
-    width:90%;
-    min-width:50vw;
+
+
     border:solid black 2px;
-    margin:3px; 
+ 
     background-color: none;
-    position: relative;
-    left:10vw;
+ 
+
 
 }
 .search-input:focus {
@@ -57,6 +60,13 @@ th{
     margin:10px;
 
 }
+.add-item-btn:hover{
+    width:50px;
+    height:50px;
+    background-color: rgb(72, 156, 114);
+    border:solid rgb(26, 24, 24) 4px;
+  
+}
 .add-img{
     position: absolute;
     width:30px;
@@ -68,11 +78,13 @@ th{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
+
 }
 .filter-component{
-    background-color:none;
-    width:73vw;
-    height:70px;
+    background:none;
+    width:60vw;
+
     position:absolute;
     left:0;
     display: flex;
@@ -91,6 +103,13 @@ th{
     margin:5px;
 
 }
+.cancel:hover{
+    width:50px;
+    height:50px;
+    background-color: rgb(255, 72, 72);
+    border:solid rgb(26, 24, 24) 4px;
+  
+}
 .cancel-icon{
     width:40px;
     position:absolute;
@@ -100,9 +119,50 @@ th{
 .search-table{
  height:30px;
  min-height:30px;
-
+ border:solid black 2px; 
  display: flex;
  flex-direction: row;
  
  
+}
+
+
+
+.export-link{
+    position:fixed;
+    right:30px;
+    top:195px;
+    font-size: 18px;
+    text-decoration: none;
+    color:black;
+    width:50px;
+    height:30px;
+    background: rgb(75, 128, 75);
+    border:solid black 5px;
+    border-radius: 10px;
+    justify-content:center;
+    
+    padding:7px;
+    z-index:900;
+}
+.export-link:hover{
+    width:50px;
+    height:30px;
+    background-color:  rgb(72, 156, 114);
+    border:solid rgb(26, 24, 24) 4px;
+    font-size: 16px;
+    text-decoration: none;
+  
+}
+.edit{
+    background-color: rgb(38, 107, 124);
+}
+.edit:hover{
+    background-color: rgb(31, 138, 170);
+}
+.delete{
+    background-color: rgb(138, 48, 48);
+}
+.delete:hover{
+    background-color: rgb(235, 45, 45);
 }

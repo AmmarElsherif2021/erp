@@ -47,11 +47,15 @@ Classes and objects:
 	- Bid
  	- c_name (optional)
   	- c_phone
-   	- total
+   	- b_total
 	- discount
  	- items
   	- date
    	- time
+-ItemToBill():
+	- required_quantity
+	- units
+	- total
 - User():
   	- Id
    	-name

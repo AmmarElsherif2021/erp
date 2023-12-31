@@ -90,7 +90,7 @@ const Dashboard = () => {
             
               
               )) : <div>No accounts found</div>}
-              <div><button className='add-acc-btn' onClick={()=>setAddPop(true)}><img className='add-img' src={addPlus}/></button></div>
+              <div><button className='add-acc-btn' onClick={()=>setAddPop(true)}><img className='add-img-1' src={addPlus}/></button></div>
              
           </div>
 

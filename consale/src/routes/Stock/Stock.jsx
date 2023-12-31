@@ -1,4 +1,6 @@
 import { useState,useEffect,useMemo } from 'react';
+import { CSVLink } from 'react-csv';
+
 import './Stock.css';
 import ItemPop from '../../layout/popups/ItemPop/ItemPop';
 import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
@@ -32,10 +34,17 @@ import DataTable from 'react-data-table-component';
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
     <div className='filter-component'>
       
-      <input className="search-table" id="search" type="text" placeholder="Filter By Name" aria-label="Search Input" value={filterText} onChange={onFilter} />
+      <input className="search-table input" id="search" type="text" placeholder="Filter By Name" aria-label="Search Input" value={filterText} onChange={onFilter} />
       <button className='cancel'  onClick={onClear}><img className='cancel-icon' src={cancelIcon}/></button>
       
     </div>
+  );
+//export csv component
+
+const Export = ({ onExport}) => (
+<CSVLink data={onExport()} filename={'stockData.csv'} className='export-link'>
+    Export
+  </CSVLink>
   );
 const Stock =()=>{
    
@@ -75,13 +84,13 @@ const Stock =()=>{
         {
           name: 'Actions',
           selector: 'actions',
-          width: '200px',
+          width: '228px',
           cell: (row) => (
             <div>
-              <button variant="contained" color="primary" onClick={(e) => handleItemEdit(e, row.id)}>
+              <button variant="contained" className='table-btn edit' color="primary" onClick={(e) => handleItemEdit(e, row.id)}>
                 Edit
               </button>
-              <button variant="contained" color="secondary" onClick={(e) => handleItemDel(e, row.id)}>
+              <button variant="contained" className='table-btn delete' color="secondary" onClick={(e) => handleItemDel(e, row.id)}>
                 -
               </button>
             </div>
@@ -102,7 +111,7 @@ const Stock =()=>{
                 
             
         },
-        // Add more objects for more rows
+
         {
             id: '102',
             parameter: 'length',
@@ -236,7 +245,23 @@ const Stock =()=>{
         }, [filterText, resetPaginationToggle]);
 
 
+        const customStyles = {
+            headCells: {
+              style: {
+                fontWeight: '800',
+                backgroundColor:'#009999'
+              },
+            },
+          };
+          
+        
+          const handleExport = () => {
+            const csvData = stockData.map(({ id, ...rest }) => rest);
+            return csvData;
+          };
+        
 
+        const actionsMemo = useMemo(() => <Export onExport={handleExport} />, []);
 //table grid|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
   
@@ -283,13 +308,16 @@ const Stock =()=>{
             <DataTable
                 columns={columns}
                 data={filteredItems}
-                className='data-table'
+                className='data-table table'
                 pagination
                 paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
                 subHeader
+                customStyles={customStyles}
                 subHeaderComponent={subHeaderComponentMemo}
                 selectableRows
                 persistTableHead
+                fixedHeader
+                actions={actionsMemo}
             />
         </div>
       </div>

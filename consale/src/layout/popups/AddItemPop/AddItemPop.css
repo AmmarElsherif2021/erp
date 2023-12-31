@@ -54,12 +54,7 @@
     padding-left:5px;
     
 }
-.input{
-  
-  border:black solid 3px;
-  
 
-}
 .radio-input{
     border:none;
     box-shadow: none;
@@ -67,7 +62,12 @@
     
 }
 
-
+.input{
+  
+    border:black solid 3px;
+    
+  
+  }
 .input:focus {
     border-color: rgb(39, 102, 99);
 }

@@ -10,6 +10,7 @@
     display:grid;
     width:73vw;
     box-sizing: border-box;
+    padding-right:25px;
     overflow: hidden;
     grid-template-columns:2fr 1fr;
   
@@ -17,9 +18,11 @@
 }
 .new-bill-section{
     background:none;
+    height:98vh;
     border-right:dotted 5px black;
     display:grid;
-    grid-template-rows:1fr 9fr;
+    grid-template-rows:1fr 10fr;
+    padding-top: 20px;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
@@ -28,26 +31,34 @@
 .old-bills-section{
     background: none;
     display:grid;
-    grid-template-rows:1fr 9fr;
+    grid-template-rows:1fr 10fr;
+    padding-top: 20px;
+    height:98vh;
+    
     align-items: center;
     box-sizing: border-box;
     justify-content: center;
+  
 
 }
 .section-header{
 
-    background: #35443d;
+  
     display:grid;
     grid-template-columns: 1fr;
     overflow: hidden;
     justify-content: start;
+    border: black solid 3px;
+    margin:25px;
+    width:80%;
+    max-width:90%;
 
 
 }
 
 .search-input{
 
-    max-width: 40vw;
+  
     width:90%;
     border:solid black 2px;
     position:absolute;
@@ -62,6 +73,8 @@
     background: rgb(255, 196, 0);
     display:grid;
     grid-template-rows:1fr 9fr;
+    width:100%;
+    min-width:50vw;
     height:88%;
     max-height:90%;
     box-sizing: border-box;
@@ -69,7 +82,8 @@
 }
 .old-bills-space{
     background: #00cc66;
-
+    width:100%;
+    min-width:25vw;
     height:88%;
     max-height:90%;
 }

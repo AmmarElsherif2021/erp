@@ -17,12 +17,12 @@ const ItemToBill = (props) => {
     return(
         <div className='item-bill-pop'>
             <button className='cancel-item-bill-pop' onClick={cancelItemToBill}><img className='cancel-icon' src={cancelIcon}/></button>
-            <div className='card-header'>
-            <img className='card-img' src={AnonPic}/>
+            <div className='pop-header'>
+            <img className='pop-img' src={AnonPic}/>
             <h1>Add new Item to Bill</h1>
         </div>
 
-        <div className='card-p'>
+        <div className='pop-p'>
             <h4>
              name: <span>{props.name}</span> <br/>
              unit: <span>{props.unit}</span> <br/>

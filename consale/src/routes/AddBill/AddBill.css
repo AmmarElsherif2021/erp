@@ -77,12 +77,13 @@
     background:none;
     display:grid;
     grid-template-rows:1fr 9fr;
-    width:100%;
+    width:50vw;
     min-width:50vw;
-    height:88%;
+    height:90vh;
     max-height:90%;
     box-sizing: border-box;
     align-items: center;
+    background: orange;
 }
 .old-bills-space{
     background:none;

@@ -25,6 +25,7 @@
     display:grid;
     grid-template-columns: 1fr 3fr;
     min-height:100vh;
+    z-index: 100000;
 }
 .start-header{
  
@@ -41,7 +42,7 @@
     min-height:100vh;
     justify-content: center;
     align-items: center;
-    z-index: 100000;
+
     margin-right: 5px;
     
 }

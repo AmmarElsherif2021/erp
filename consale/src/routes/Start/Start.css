@@ -41,6 +41,8 @@
     min-height:100vh;
     justify-content: center;
     align-items: center;
+    z-index: 100000;
+    margin-right: 5px;
     
 }
 .sidebar-list{

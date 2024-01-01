@@ -1,20 +1,24 @@
 .add-bill{
     background:none;
-    display:grid;
-    grid-template-rows:1fr 9fr;
-    width:73vw;
+    display:flex;
+    flex-direction: column;
+    position: fixed;
+    right: 0;
+    
+    width:74vw;
+    height: 99vh;
+    overflow: hidden;
+    overflow-y: hidden;
     box-sizing: border-box;
 }
 .add-bill-sections{
     background: none;
     display:grid;
-    width:73vw;
+    width:74vw;
     box-sizing: border-box;
-    padding-right:25px;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
     grid-template-columns:2fr 1fr;
-  
-   
 }
 .new-bill-section{
     background:none;
@@ -34,7 +38,7 @@
     grid-template-rows:1fr 10fr;
     padding-top: 20px;
     height:98vh;
-    
+    overflow-y: hidden;
     align-items: center;
     box-sizing: border-box;
     justify-content: center;
@@ -70,7 +74,7 @@
    
 }
 .new-bill-space{
-    background: rgb(255, 196, 0);
+    background:none;
     display:grid;
     grid-template-rows:1fr 9fr;
     width:100%;
@@ -81,9 +85,11 @@
     align-items: center;
 }
 .old-bills-space{
-    background: #00cc66;
+    background:none;
     width:100%;
-    min-width:25vw;
+
     height:88%;
     max-height:90%;
+    overflow-y: scroll;
+    overflow-x: none;
 }

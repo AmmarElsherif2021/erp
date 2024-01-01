@@ -17,44 +17,31 @@ const BillCard=(props)=>{
 
         <div className='card-header'>
             <img className='card-img' src={AnonPic}/>
-            <h1>{props.w_name}</h1>
+            <h1>{props.cName}{' '}<small>BID: {props.bid}</small></h1>
+            
         </div>
 
+       
+
         <div className='card-p'>
-            <h4>B-id: <span>{props.bid}</span> <br/>
-             Customer Name: <span>{props.cName}</span>
-             Phone: <span>{props.phone}</span>
-             Date: <span>{props.date}</span>
-             Time: <span>{props.time}</span>
-            </h4>
+                <h2>
+                <span>{props.date}</span>
+                </h2>
+                <h2>
+                <span>{props.time}</span>
+                </h2>
         </div>
-        <div>
-         <h4>Items</h4>
-          <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Required Quantity</th>
-            <th>Units</th>
-            <th>Price/Unit</th>
-            <th>Unit</th>
-            <th>Total</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-            {props.items.map(
-                (x)=>(<tr>
-                <td>{x.name}</td>
-                <td>{x.required_quantity}</td>
-                <td>{x.units}</td>
-                <td>{x.price_unit}</td>
-                <td>{x.unit}</td>
-                <td>{x.total}</td>
-                </tr>))}
-        </tbody>
-          </table>
+        <div className='card-p'>
+            <h2>
+              <span>Total: {props.bTotal}</span>
+            </h2>
+            <h2>
+                <span>Debt: {props.debt}</span>
+            </h2>
         </div>
+
+
+   
 
     </div>
     )

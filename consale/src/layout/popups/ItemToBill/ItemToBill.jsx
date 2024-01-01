@@ -1,6 +1,16 @@
 import './ItemToBill.css';
 import AnonPic from "../../../assets/anon.svg"
 import cancelIcon from '../../../assets/cancel.svg'
+
+/*
+Item attributes in the bill items list:
+-ibid
+-name
+-req_qty
+-unit
+-price_unit
+-total
+*/
 const ItemToBill = (props) => {
     const { cancelItemToBill } = props;
 
@@ -9,7 +19,7 @@ const ItemToBill = (props) => {
             <button className='cancel-item-bill-pop' onClick={cancelItemToBill}><img className='cancel-icon' src={cancelIcon}/></button>
             <div className='card-header'>
             <img className='card-img' src={AnonPic}/>
-            <h1>{props.w_name}</h1>
+            <h1>Add new Item to Bill</h1>
         </div>
 
         <div className='card-p'>
@@ -17,7 +27,7 @@ const ItemToBill = (props) => {
              name: <span>{props.name}</span> <br/>
              unit: <span>{props.unit}</span> <br/>
              price/unit: <span>{props.priceUnit}</span> <br/>
-             units required: <span>{props.requiredUnits}</span> <br/>
+             units required: <span>{props.reqQty}</span> <br/>
              Total: <span>{props.total}</span> <br/>
             </h4>
         </div>

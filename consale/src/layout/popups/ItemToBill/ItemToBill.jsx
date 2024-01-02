@@ -1,6 +1,7 @@
 import './ItemToBill.css';
 import AnonPic from "../../../assets/anon.svg"
 import cancelIcon from '../../../assets/cancel.svg'
+import addPlus from '../../../assets/add-plus.svg'
 
 /*
 Item attributes in the bill items list:
@@ -12,7 +13,7 @@ Item attributes in the bill items list:
 -total
 */
 const ItemToBill = (props) => {
-    const { cancelItemToBill } = props;
+    const { cancelItemToBill,handleItemsListPush } = props;
 
     return(
         <div className='item-bill-pop'>
@@ -30,6 +31,7 @@ const ItemToBill = (props) => {
              units required: <span>{props.reqQty}</span> <br/>
              Total: <span>{props.total}</span> <br/>
             </h4>
+            <button onClick={(e)=>handleItemsListPush(e,props.id)}><img src={addPlus} className='add-plus'/></button>
         </div>
         </div>
     )

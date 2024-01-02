@@ -13,7 +13,7 @@ import './BillPop.css';
 import AnonPic from "../../../assets/anon.svg"
 const BillPop=(props)=>{
     return(
-    <div className='bill-pop'>
+    <div className='oldbill-pop'>
 
         <div className='pop-header'>
             <img className='pop-img' src={AnonPic}/>

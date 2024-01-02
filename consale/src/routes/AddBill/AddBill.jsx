@@ -1,9 +1,12 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import './AddBill.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { useEffect, useState } from 'react';
 import ItemToBill from '../../layout/popups/ItemToBill/ItemToBill';
 import BillCard from '../../layout/cards/BillCard/BillCard';
+import BillPop from '../../layout/popups/BillPop/BillPop';
 const stockData = [
   
     {
@@ -183,6 +186,9 @@ const AddBill=()=>{
     const [newAdded,setNewAdded]=useState({});
     //added items list to bill
     const [addedItems,setAddedItems]=useState([]);
+    // assure addedItems on 1st render
+    useEffect(()=>console.log('added items list ready to be filled||||||||||||||||||||||||||||||||')
+    ,[addedItems])
 
      
   //new Item popup
@@ -191,7 +197,8 @@ const AddBill=()=>{
       const newItem =stockData.filter((x)=>x.id==id)[0]
       setNewAdded({
         ...newItem,
-        required_units:0,
+        ibid:uuidv4(),
+        req_qty:0,
         total:newItem.req_qty*newItem.price_unit
       })
     }
@@ -200,20 +207,52 @@ const AddBill=()=>{
     }
    
     useEffect
-    (()=>newAdded&&newAdded.id?console.log(`new added ${{...newAdded}} `)
+    (()=>newAdded&&newAdded.ibid?console.log(`new added ${JSON.stringify(newAdded)} `)
     :
-    console.log('none retrieved'),[newAdded]);
+    console.log('there is no newAdded'),[newAdded]);
+
    //add selected newAdded item to bill
    const handleItemsListPush=(e,id)=>{
+    
     //set addedItemsList -->is rq_quantity > stock qty? push newAdded
+      e.preventDefault();
+      if (addedItems && newAdded.id === id) {
+        setAddedItems((prev) => [...prev, newAdded]);
+      } else if(addedItems&&addedItems.length==0){
+        setAddedItems((prev)=>prev.push(newAdded))
+      }else {
+        console.log(`did not add ${JSON.stringify(newAdded)} to bill items list`);
+      }
+      setNewAdded({});
+     // END POINT :to complete the entire substraction from the entire stock;
+     //########################################################
+     //######################################################## replace the below map
+    //stockData.map((x)=>x.id==newAdded.id?x.quantity_stock-newAdded.req_qty
+      //:
+      //console.log('error substracting stock'))
     //set newAdded to {} then wait for <<confirm>> in itemToBill
+    
     //       to complete the entire substraction from the entire stock
-   }
+   };
+   useEffect(()=>console.log('idling state add item to bill'),[newAdded])
+   useEffect(()=>console.log(`added items to bill ${addedItems.map((x)=>x?JSON.stringify(x):'')}`)
+   ,[addedItems])
 
 //Right section >> Navigate old bills ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
    const [bills,setBills]=useState([...billsData]);
-   useEffect(()=>console.log(`bills..> ${bills.map((x)=>JSON.stringify(x))}`),[])
-   
+   useEffect(()=>{console.log(`bills..> ${bills.map((x)=>JSON.stringify(x))}`)},[]);
+   //handle click on card:
+   const [oldBillPop,setOldBillPop]=useState({});
+
+   const handleCardClick=(e,id)=>{
+    e.preventDefault()
+     const clicked=bills.filter((x)=>x.bid==id)[0];
+     setOldBillPop({...clicked})
+   }
+   useEffect(() => {
+    console.log('old bill pop triggered');
+  }, [oldBillPop]);
+  
     return(
         <div className="route-content add-bill">
             <h1>Add new bill here</h1>
@@ -223,10 +262,25 @@ const AddBill=()=>{
                 <div className='new-bill-section'>
                     {
                       newAdded&&newAdded.id?<div><ItemToBill name={newAdded.name} unit={newAdded.unit} 
-                      priceUnit={newAdded.price_unit} requiredUnits={newAdded.required_units} 
-                      total={newAdded.total} cancelItemToBill={cancelItemToBill}/></div>
+                      priceUnit={newAdded.price_unit} reqQty={newAdded.req_qty} id={newAdded.id}
+                      total={newAdded.total} cancelItemToBill={cancelItemToBill} handleItemsListPush={handleItemsListPush}/></div>
                       :
                       <div></div>
+                    }
+                    {
+                      oldBillPop &&oldBillPop.bid?
+                      (<BillPop
+                        bid={oldBillPop.bid}
+                        cName={oldBillPop.c_name} 
+                        cPhone={oldBillPop.c_phone}
+                        bTotal={oldBillPop.b_total}
+                        discount={oldBillPop.discount}
+                        items={oldBillPop.items}
+                        date={oldBillPop.date}
+                        time={oldBillPop.time}
+                        
+                        />)
+                      :(<div></div>)
                     }
                     <div className='section-header'> 
                         <Autocomplete
@@ -244,7 +298,28 @@ const AddBill=()=>{
 
 
                     <div className='new-bill-space'>
-                      <></>
+                      <h2> 
+                      </h2>
+                      <table>
+                          <tr>
+                            <td>Name</td>
+                            <td>Required Quantity</td>
+                            <td>Unit</td>
+                            <td>Price/Unit</td>
+                            <td>Total</td>
+                          </tr>
+                          {addedItems?addedItems.map((x)=>
+                            (<tr>
+                            <td>{x.name}</td>
+                            <td>{x.req_qty}</td>
+                            <td>{x.unit}</td>
+                            <td>${x.price_unit}</td>
+                            <td>${x.total}</td>
+                            <td><button onClick={()=>setAddedItems((prev)=>prev.filter((y)=>y.id!=x.id))}>-</button></td>
+                          </tr>))
+                            :(<tr></tr>)}
+                          
+                        </table>
                     </div>
                 </div>
 {/*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/}
@@ -259,7 +334,7 @@ const AddBill=()=>{
                   value={newAdded}
                   onChange={(event, newAdded) => {
                  
-                    handleNewItemPop(event,newAdded.id)
+                    newAdded.id && handleNewItemPop(event,newAdded.id)
                     
                   }}
                   renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
@@ -271,14 +346,19 @@ const AddBill=()=>{
                     <div className='old-bills-space'>
                     <div style={{fontSize:8}}>{bills&&bills.length>0?
                       bills.map(
-                        (x)=><BillCard
+                        (x)=>
+                        <div onClick={(e)=>handleCardClick(e,x.bid)}>
+                        <BillCard
                         bid={x.bid}
                         cName={x.c_name} 
                         bTotal={x.b_total}
                         date={x.date}
                         time={x.time}
                         debt={x.debt}
-                      />):<div></div>}
+                      />
+                        </div>)
+                        :
+                        <div></div>}
                       </div>
                     </div>
                 </div>

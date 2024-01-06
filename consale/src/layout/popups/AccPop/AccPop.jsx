@@ -7,14 +7,29 @@ const AccPop = (props) => {
     return(
         <div className='acc-pop'>
             <button className='cancel-acc-pop' onClick={cancelAccPop}><img className='cancel-icon' src={cancelIcon}/></button>
-            <div className='card-header'>
-            <img className='card-img' src={AnonPic}/>
-            <h1>{props.w_name}</h1>
-        </div>
+            <div className='acc-pop-header'>
+                <img className='acc-pop-img' src={AnonPic}/>
+                <div>
+                <h1>{props.w_name}</h1>
+                <button>Delete Account</button>
+                </div>
+                 
+            </div>
 
-        <div className='card-p'>
-            <h4>Short: <span>{props.short}</span> <br/> Last closed: <span>{props.lastClosed}</span> </h4>
-        </div>
+            <div className='acc-pop-p'>
+               
+                <h4>
+                Last opened: <span>{props.lastOpened}</span><br/>
+                Last closed: <span>{props.lastClosed}</span><br/>
+                </h4>
+                <h4>
+                 Shift income: <span>{props.shiftIncome}</span><br/>
+                 Desk Revision: <span>{props.deskRevision}</span><br/>
+                 Short: <span>{props.short}</span> <br/>
+
+                </h4>
+                
+            </div>
         </div>
     )
 }

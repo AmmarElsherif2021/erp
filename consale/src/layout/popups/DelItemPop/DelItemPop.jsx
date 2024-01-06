@@ -11,7 +11,7 @@ const DelItemPop=(props)=>{
             <button className='del-item-btn confirm' 
             style={{backgroundColor: "#00994d"}} 
             onClick={(e)=>confirmDelItem(e,props.id)}>confirm</button>
-            <button className='del-item-btn cancel' 
+            <button className='del-item-btn ' 
             style={{backgroundColor: "#ff5c33"}}
             onClick={cancelDelItemPop}>cancel</button>
             </div>

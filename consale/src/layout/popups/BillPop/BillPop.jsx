@@ -10,14 +10,18 @@
 */ 
 import './BillPop.css';
 
-import AnonPic from "../../../assets/anon.svg"
+import AnonPic from "../../../assets/anon.svg";
+import cancelIcon from '../../../assets/cancel.svg';
+
 const BillPop=(props)=>{
+    const {cancelBillPop,openBill}=props;
     return(
     <div className='oldbill-pop'>
+    <button className='cancel-bill-pop' onClick={cancelBillPop}><img className='cancel-icon' src={cancelIcon}/></button>
 
         <div className='pop-header'>
             <img className='pop-img' src={AnonPic}/>
-            <h1>New Bill</h1>
+            <h1>old bill</h1>
         </div>
 
         <div className='pop-p'>
@@ -29,10 +33,10 @@ const BillPop=(props)=>{
             </h4>
         </div>
         <div>
-         <h4>Items</h4>
+      
           <table>
-          <thead>
-          <tr>
+          <thead >
+          <tr >
             <th>Name</th>
             <th>Required Quantity</th>
             <th>Units</th>
@@ -53,7 +57,13 @@ const BillPop=(props)=>{
                 <td>{x.total}</td>
                
                 </tr>))}
-            <tr>Total: {props.total} <s/> Debt: {props.debt}</tr>
+            <tr>  
+            <td>Total: {props.total}</td>
+            <td>Debt: {props.debt}</td>
+            <td></td>
+            <td></td>
+            <td><button className='open-bill-btn' onClick={openBill}>Open Bill</button></td>
+            </tr>
         </tbody>
           </table>
         </div>

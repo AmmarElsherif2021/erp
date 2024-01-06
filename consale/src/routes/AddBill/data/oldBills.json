@@ -1,0 +1,110 @@
+[
+    {
+      "bid":"b101",
+         "c_name":"ammar elsherif",
+        "c_phone":"01009780911",
+         "b_total":0,
+        "discount":0,
+         "items":[
+        {
+          "ibid":"0001",
+          "name":"nails",
+          "req_qty":5,
+          "unit":"kg",
+          "price_unit":5,
+          "total":25
+        },
+        {
+          "ibid":"0002",
+          "name":"grinding paper",
+          "req_qty":10,
+          "unit":"m",
+          "price_unit":5,
+          "total":50
+        },
+        {
+          "ibid":"0003",
+          "name":"grin paper",
+          "req_qty":15,
+          "unit":"cm",
+          "price_unit":50,
+          "total":750
+        }
+      ],
+      "debt":0,
+      "date":"01/01/2024",
+         "time":"00:00 pm"
+    },
+    {
+      "bid":"b102",
+         "c_name":"amr",
+        "c_phone":"01000000911",
+         "b_total":222,
+        "discount":0,
+         "items":[
+        {
+          "ibid":"0001",
+          "name":"nails",
+          "req_qty":5,
+          "unit":"kg",
+          "price_unit":5,
+          "total":25
+        },
+        {
+          "ibid":"0002",
+          "name":"grinding paper",
+          "req_qty":10,
+          "unit":"m",
+          "price_unit":5,
+          "total":50
+        },
+        {
+          "ibid":"0003",
+          "name":"grin paper",
+          "req_qty":15,
+          "unit":"cm",
+          "price_unit":50,
+          "total":750
+        }
+      ],
+      "debt":"0",
+      "date":"01/01/2024",
+      "time":"00:00 pm"
+    },
+    {
+      "bid":"b101",
+         "c_name":"ammar elsherif",
+        "c_phone":"01009780911",
+         "b_total":0,
+        "discount":0,
+         "items":[
+        {
+          "ibid":"0001",
+          "name":"nails",
+          "req_qty":5,
+          "unit":"kg",
+          "price_unit":5,
+          "total":25
+        },
+        {
+          "ibid":"0002",
+          "name":"grinding paper",
+          "req_qty":10,
+          "unit":"m",
+          "price_unit":5,
+          "total":50
+        },
+        {
+          "ibid":"0003",
+          "name":"grin paper",
+          "req_qty":15,
+          "unit":"cm",
+          "price_unit":50,
+          "total":750
+        }
+      ],
+      "debt":0,
+      "date":"01/01/2024",
+         "time":"00:00 pm"
+    }
+  ]

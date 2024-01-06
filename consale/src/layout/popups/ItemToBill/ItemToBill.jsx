@@ -1,8 +1,8 @@
 import './ItemToBill.css';
-import AnonPic from "../../../assets/anon.svg"
+import AnonPic from "../../../assets/product.svg"
 import cancelIcon from '../../../assets/cancel.svg'
 import addPlus from '../../../assets/add-plus.svg'
-
+import { useState,useEffect } from 'react';
 /*
 Item attributes in the bill items list:
 -ibid
@@ -13,7 +13,14 @@ Item attributes in the bill items list:
 -total
 */
 const ItemToBill = (props) => {
-    const { cancelItemToBill,handleItemsListPush } = props;
+    const { cancelItemToBill,handleItemsListPush,handleReqQty } = props;
+    const [reqQty, setReqQty] = useState(0);
+    useEffect(()=>console.log,[reqQty]);
+    function handleChange(e) {
+      e.preventDefault();
+      setReqQty(e.target.value)
+      handleReqQty(e.target.value);
+    }
 
     return(
         <div className='item-bill-pop'>
@@ -24,14 +31,19 @@ const ItemToBill = (props) => {
         </div>
 
         <div className='pop-p'>
-            <h4>
-             name: <span>{props.name}</span> <br/>
-             unit: <span>{props.unit}</span> <br/>
-             price/unit: <span>{props.priceUnit}</span> <br/>
-             units required: <span>{props.reqQty}</span> <br/>
-             Total: <span>{props.total}</span> <br/>
+            
+            <h4 style={{borderLeft:"dotted",marginLeft:"5px" ,paddingLeft:"5px"}}>
+             Name: <span>{props.name}</span> <br/>
+             Unit: <span>{props.unit}</span> <br/>
+             Price/Unit: <span>{props.priceUnit}</span> <br/>
+             Stock Quantity <span>{props.stockQty}</span><br/>
+             
             </h4>
-            <button onClick={(e)=>handleItemsListPush(e,props.id)}><img src={addPlus} className='add-plus'/></button>
+            <h4 style={{borderLeft:"dotted",marginLeft:"5px" ,paddingLeft:"5px"}}>
+             Required Quantity: <span><input style={{width:"70px"}} min="0" max={props.stockQty} type="number" id="reqQty" value={reqQty} onChange={(e)=>handleChange(e)} /></span> <br/>
+             Total: <span>{Number(reqQty)*Number(props.priceUnit)}</span> <br/>
+            </h4>
+            <div ><button className='add-item-bill-btn' onClick={(e)=>handleItemsListPush(e,props.id)}><img src={addPlus} className='add-plus'/></button></div>
         </div>
         </div>
     )

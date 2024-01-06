@@ -63,14 +63,14 @@ const Dashboard = () => {
         console.log(`accPop ----->${accPop}`)
       }
   return (
-      <div className="route-content dashboard">
+      <div  className="route-content dashboard">
       <h1>Accounts</h1>
 
           {addPop? <AddPop  cancelAddPop={cancelAddPop}/>:<div></div>}
           {accPop.wid?  <AccPop w_name={accPop.w_name} short={accPop.short} lastClosed={accPop.last_closed} cancelAccPop={cancelAccPop}/>:<div></div>}
           
 
-          <div className="accounts">
+          <div className="accounts" style={accPop&&accPop.wid?{ filter: "blur(2px)" }:{filter:"none"}}>
               
               {Array.isArray(accounts)  ? accounts.map((account) => (
                 <div key={account.wid} 

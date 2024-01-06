@@ -1,3 +1,4 @@
+
 .item-bill-pop{
     width:50vw;
     height:60vh;
@@ -5,7 +6,8 @@
     left:35vw;
     top:15vh;
     background:rgb(90, 192, 144);
-    border:solid black 5px;
+    border: 5px solid black;
+    border-radius: 35px;
     z-index: 10000;
     display:flex;
     flex-direction: column;
@@ -16,8 +18,8 @@
     width:50px;
     height:50px;
     position:absolute;
-    top:-25px;
-    left:-25px;
+    top:0px;
+    left:0px;
     border:solid black 5px;
     background-color: rgb(216, 44, 44);
     border-radius: 50%;
@@ -32,7 +34,25 @@
 .pop-img{
     width:25%;
 }
+.pop-p{
+    display: flex;
+    flex-direction: row;
+    background: aqua;
+    justify-content: space-around;
+}
+.add-item-bill-btn{
+    position: relative;
+    top:0;
+    left:0;
+    width:100px;
+    height:100px;
+    background-color: rgb(75, 128, 75);
+    border:solid black 5px;
+    margin:20px;
+}
 .add-plus{
     position:absolute;
-    width:100px;
+    top:11px;
+    left:11px;
+    width:70px;
 }

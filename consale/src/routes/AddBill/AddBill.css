@@ -1,10 +1,13 @@
+
+
+
 .add-bill{
     background:none;
     display:flex;
     flex-direction: column;
     position: fixed;
     right: 0;
-    
+    top:0;
     width:74vw;
     height: 99vh;
     overflow: hidden;
@@ -19,25 +22,30 @@
     overflow-y: hidden;
     overflow-x: hidden;
     grid-template-columns:2fr 1fr;
+    position:relative;
 }
 .new-bill-section{
-    background:none;
+   
+   
     height:98vh;
     border-right:dotted 5px black;
-    display:grid;
-    grid-template-rows:1fr 10fr;
-    padding-top: 20px;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    flex-direction: column;
+  
+    align-items:center;
+    justify-content:space-evenly;
     box-sizing: border-box;
+    position: relative;
     
 }
 .old-bills-section{
     background: none;
-    display:grid;
-    grid-template-rows:1fr 10fr;
+    position:relative;
+    display:flex;
+    flex-direction: column;
     padding-top: 20px;
     height:98vh;
+    
     overflow-y: hidden;
     align-items: center;
     box-sizing: border-box;
@@ -47,43 +55,79 @@
 }
 .section-header{
 
-  
-    display:grid;
-    grid-template-columns: 1fr;
-    overflow: hidden;
-    justify-content: start;
-    border: black solid 3px;
-    margin:25px;
-    width:80%;
-    max-width:90%;
 
-
-}
-
-.search-input{
-
-  
-    width:90%;
-    border:solid black 2px;
-    position:absolute;
-    left:0;
-    top:0;
-
-
-
-   
-}
-.new-bill-space{
     background:none;
-    display:grid;
-    grid-template-rows:1fr 9fr;
+    margin-bottom: 50px;
+
+    position: relative;
+    border: black solid 3px;
+ 
+    height:auto;
+    max-width:95%;
+    min-width:90%;
+
+    
+   
+
+
+}
+.section-header ul{
+    z-index:100000;
+    height: auto;
+    position: absolute;
+    background-color: aliceblue;
+    width:600px;
+
+}
+
+.new-bill-space{
+
+    position: relative;
+    display:flex;
+    flex-direction: column;
+  
+    align-items:center;
+    justify-content:space-between;
     width:50vw;
     min-width:50vw;
     height:90vh;
     max-height:90%;
     box-sizing: border-box;
-    align-items: center;
-    background: orange;
+
+  
+ 
+}
+
+
+.bill-data-box{
+    background:rgb(53, 124, 129);
+    height:12vh;
+    width:48vw;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:center;
+    margin: 10px;
+
+  
+
+}
+.save-bill-btn{
+    position: relative;
+    top:0;
+    left:0;
+    width:50px;
+    height:50px;
+    background-color: rgb(75, 128, 75);
+    border:solid black 2px;
+    margin:20px;
+    z-index:1;
+}
+.save-add-plus{
+    position:absolute;
+    top:3px;
+    left:3px;
+    width:40px;
 }
 .old-bills-space{
     background:none;
@@ -94,3 +138,15 @@
     overflow-y: scroll;
     overflow-x: none;
 }
+.bill-items-table{
+    background: aliceblue;
+    position: absolute;
+    top:0;
+    margin-top: 10px;
+    width:48vw;
+}
+table{
+    width:95%;
+    
+}
+

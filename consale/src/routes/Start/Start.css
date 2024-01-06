@@ -39,11 +39,16 @@
 }
 .sidebar{
     background:black;
+    height:100vw;
     min-height:100vh;
     justify-content: center;
     align-items: center;
-
-    margin-right: 5px;
+    width:25vw;
+    margin-right:5px;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:10000;
     
 }
 .sidebar-list{

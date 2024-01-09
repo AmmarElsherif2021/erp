@@ -1,5 +1,12 @@
 .stock{
     background:none;
+
+    position:fixed;
+    top:0;
+    width:75vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 .stock-table{
     background:none;
@@ -22,14 +29,7 @@
 
 }
 
-.stock-header{
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-    background: rgb(0, 0, 0);
-    margin:10px;
-    max-width:71vw;
 
-}
 .search-input{
 
 
@@ -76,62 +76,22 @@
 .data-table{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content:center;
+    align-items: stretch;
     margin-top: 5px;
+    width:74vw;
 
 }
-.filter-component{
-    background:none;
-    width:60vw;
 
-    position:absolute;
-    left:0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.cancel{
-    width:50px;
-    height:50px;
-    position: relative;
 
-    border:solid black 5px;
-    background-color: rgb(216, 44, 44);
-    border-radius: 20%;
-    margin:5px;
 
-}
-.cancel:hover{
-    width:50px;
-    height:50px;
-    background-color: rgb(255, 72, 72);
-    border:solid rgb(26, 24, 24) 4px;
-  
-}
-.cancel-icon{
-    width:40px;
-    position:absolute;
-    left:0;
-
-}
-.search-table{
- height:30px;
- min-height:30px;
- border:solid black 2px; 
- display: flex;
- flex-direction: row;
- 
- 
-}
 
 
 
 .export-link{
     position:fixed;
-    right:30px;
-    top:195px;
+    right:75px;
+    top:210px;
     font-size: 18px;
     text-decoration: none;
     color:black;
@@ -152,6 +112,23 @@
     font-size: 16px;
     text-decoration: none;
   
+
+}
+.filter{
+    background: rgb(0, 0, 0);
+    width:75vw;
+
+
+    left:0;
+    top:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    margin-right: 30px;
+    position: relative;
+
+    
 }
 .edit{
     background-color: rgb(38, 107, 124);

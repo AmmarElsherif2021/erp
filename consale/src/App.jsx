@@ -9,6 +9,7 @@ import { UserProvider, useUser} from './userContext';
 import { RouterProvider } from 'react-router-dom';
 import AccCard from './layout/cards/AccCard/AccCard';
 
+
 const Routes=()=>{
   const {user,setUser} = useUser();
   useEffect(() => {
@@ -42,7 +43,7 @@ const Routes=()=>{
 }
 const App = () => {
   
-        
+
   return(
     <UserProvider>
       <Routes/>

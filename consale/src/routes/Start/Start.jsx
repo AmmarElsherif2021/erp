@@ -2,13 +2,14 @@ import { Outlet, Link } from "react-router-dom";
 import { useUser, UserProvider } from "../../userContext";
 import { useEffect, useState, useContext } from "react";
 //import { LanguageContext } from '../../languages.json';
+import { useTranslation, Trans } from 'react-i18next';
 
 import './Start.css'
 
 const Start = () => {
   // userContext
   const { user, setUser } = useUser();
-
+  const { t,i18n } = useTranslation();
   // layout classname
   const [startClass, setStartClass] = useState(user.isLogged ? 'layout' : 'start');
 
@@ -36,9 +37,9 @@ const Start = () => {
         <div className={user.isLogged ? 'sidebar' : 'no-sidebar'}>
           <div className={user.isLogged ? 'sidebar-header' : 'start-header'}>
             <div>
-              <h1>con-sale</h1>
               
-              </div>
+              <h1> CONSALE </h1>
+             
             
           </div>
 
@@ -59,6 +60,7 @@ const Start = () => {
 
           <Outlet />
         </div>
+      </div>
       </div>
     </UserProvider>
   );

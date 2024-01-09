@@ -1,12 +1,12 @@
 import { useState,useEffect,useMemo } from 'react';
 import { CSVLink } from 'react-csv';
-
+import FilterComponent from '../../layout/FilterComponent/FilterComponent';
 import './Stock.css';
 import ItemPop from '../../layout/popups/ItemPop/ItemPop';
 import DelItemPop from '../../layout/popups/DelItemPop/DelItemPop';
 import AddItemPop from '../../layout/popups/AddItemPop/AddItemPop';
 import addPlus from '../../assets/add-plus.svg'
-import cancelIcon from '../../assets/cancel.svg';
+
 //searchbar and teble imports
 import DataTable from 'react-data-table-component';
 
@@ -31,14 +31,7 @@ import DataTable from 'react-data-table-component';
 */
 
 //search bar
-const FilterComponent = ({ filterText, onFilter, onClear }) => (
-    <div className='filter-component'>
-      
-      <input className="search-table input" id="search" type="text" placeholder="Filter By Name" aria-label="Search Input" value={filterText} onChange={onFilter} />
-      <button className='cancel'  onClick={onClear}><img className='cancel-icon' src={cancelIcon}/></button>
-      
-    </div>
-  );
+
 //export csv component
 
 const Export = ({ onExport}) => (
@@ -240,7 +233,7 @@ const Stock =()=>{
             };
     
             return (
-                <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+                <div className='filter'><FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} /></div>
             );
         }, [filterText, resetPaginationToggle]);
 
@@ -249,7 +242,7 @@ const Stock =()=>{
             headCells: {
               style: {
                 fontWeight: '800',
-                backgroundColor:'#009999'
+                borderBottom: 'dotted'
               },
             },
           };
@@ -304,7 +297,7 @@ const Stock =()=>{
             <h3>Add new item</h3>
             <div><button className='add-item-btn' onClick={(e)=>handleAddItemClick(e)}><img className='add-img' src={addPlus}/></button></div>
         </div>
-        <div>
+        <div className='data-table'>
             <DataTable
                 columns={columns}
                 data={filteredItems}

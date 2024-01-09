@@ -1,5 +1,10 @@
 
-{ "toggleButton":{
+{ 
+  "startTxt":{
+    "ar": "كونسيل",
+    "eng": "CONSALE"
+  },
+  "toggleButtonTxt":{
     "ar": "عربي",
     "eng": "English"
   },

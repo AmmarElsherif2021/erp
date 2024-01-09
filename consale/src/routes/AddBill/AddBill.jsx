@@ -3,8 +3,10 @@ import stock from './data/stock.json';
 import billsData from './data/oldBills.json'
 import './AddBill.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import cancelIcon from '../../assets/cancel.svg';
+import sortIcon from '../../assets/sort.svg';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useMemo } from 'react';
 import ItemToBill from '../../layout/popups/ItemToBill/ItemToBill';
 import BillCard from '../../layout/cards/BillCard/BillCard';
 import BillPop from '../../layout/popups/BillPop/BillPop';
@@ -16,6 +18,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ControllableStates from './ControllableStates'
+import DataTable from 'react-data-table-component';
+import FilterComponent from '../../layout/FilterComponent/FilterComponent';
+import SaveBillPop from '../../layout/popups/SaveBillPop/SaveBillPop';
+
 const AddBill=()=>{
 useEffect(()=>console.log(stockData),[])
 // Create new actual bill
@@ -97,10 +103,8 @@ useEffect(()=>console.log('newBill changed'),[newBill])
    const handleItemsListPush = (e, id) => {
     e.preventDefault();
   
-    if (addedItems.length > 0 && newAdded && newAdded.id === id) {
-      setAddedItems((prev) => [...prev, newAdded]);
-    } else if (newAdded && newAdded.id === id && addedItems.length === 0) {
-      setAddedItems((prev) => [newAdded]); // Set addedItems to a new array with newAdded
+    if (newAdded && newAdded.id === id) {
+      setAddedItems((prev) => [...prev, newAdded]); // Add newAdded regardless of addedItems' length
     } else {
       console.log(`did not add ${JSON.stringify(newAdded)} to bill items list`);
     }
@@ -121,7 +125,7 @@ useEffect(()=>console.log('newBill changed'),[newBill])
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||---||||||||||||||||||||||||||||||
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
    const [bills,setBills]=useState([...billsData]);
-   useEffect(()=>{console.log(`bills..> ${bills.map((x)=>JSON.stringify(x))}`)},[]);
+   useEffect(()=>{console.log(`bills..> `)},[bills]);
    //handle click on card:
    const [oldBillPop,setOldBillPop]=useState({});
 
@@ -141,7 +145,69 @@ useEffect(()=>console.log('newBill changed'),[newBill])
    useEffect(() => {
     console.log('old bill pop triggered');
   }, [oldBillPop]);
+
+  //filter old bills memo:
+  //Search |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+  const [filterText, setFilterText] = useState('');
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  useEffect(()=>console.log('filtering'),[filterText]);
+  useEffect(()=>console.log('paginating'),[resetPaginationToggle]);
+
+  const filteredItems = billsData.filter(
+      item => item.c_name && item.c_name.toLowerCase().includes(filterText.toLowerCase()),
+  );
+  const handleClear = () => {
+    if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+        }
+    };
+
+    //arrange bills based on debt
+    const [arranged,setArranged]=useState(false);
+    useEffect(()=>console.log('arranging?'),[arranged])
+    useEffect(()=>console.log(arranged),[arranged,bills])
+    const handleArrange=(e)=>{
+      e.preventDefault();
+      const sortedArr=billsData.sort((p1,p2)=>p1.debt<p2.debt?1:p1.debt>p2.debt?-1:0);
+        setArranged((prev)=>!prev);
+        arranged?setBills([...sortedArr]):setBills([...billsData])
+      }
+    
   
+/*|||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||.......................|||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||.......................|||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+*/
+const [confirmSave,setConfirmSave]=useState(false);
+const confirmSaveBill = (e) => {
+  e.preventDefault();
+  console.log('triggered');
+  console.log(`bills 0 ${bills.map((x) => x.bid)}`);
+  confirmSave && setBills((prev) => [...prev, newBill]);
+  console.log(`bills 1 ${bills.map((x) => x.bid)}`);
+  setConfirmSave(false)
+};
+
+const cancelSaveBillPop = () => {
+  setConfirmSave(false);
+};
+
+const handleAddBill = (e) => {
+  setConfirmSave(true);
+  setNewBill((prev)=>({...prev,items:[...addedItems]}))
+};
+
+useEffect(() => console.log(`confirm save ?${confirmSave}`), [confirmSave]);
+
+useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
   //Final stage of confirm pop that substracts the actual db data|||||||||||||||||||||||||||||||||||||||||;
     return(
         <div className="route-content add-bill">
@@ -185,10 +251,31 @@ useEffect(()=>console.log('newBill changed'),[newBill])
             />)
           :(<div></div>)
         }
+        {confirmSave ? (
+          <div style={{ zIndex: 100000 }}>
+          <SaveBillPop
+          bid={newBill.bid}
+          cName={newBill.c_name}
+          items={newBill.items}
+          confirmSaveBill={confirmSaveBill}
+          cancelSaveBillPop={cancelSaveBillPop}
+        />
+          </div>
+        ) : (
+          <div></div>
+        )}
            
             <h1>New Bill</h1>
             <div className='add-bill-sections'>
-        {/*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/}
+        {/*
+         <SaveBillPop
+              bid={newBill.bid}
+              cName={newBill.c_name}
+              items={newBill.items}
+              confirmSaveBill={confirmSaveBill}
+              cancelSaveBillPop={cancelSaveBillPop}
+            />
+         |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/}
    
         <div className="new-bill-section left-pane" >
                 <div className="section-header">
@@ -215,10 +302,23 @@ useEffect(()=>console.log('newBill changed'),[newBill])
                   />
                 </div>
 
-                <div style={{display:'flex',flexDirection:'row'}}>
-                <h4>Bid</h4><p>{oldBillPop&&oldBillPop.bid?oldBillPop.bid:newBill.bid}</p>
+                <div style={{display:'flex',flexDirection:'row' , alignItems:'center'}}>
+                <h4>Bid</h4><p style={{color:'blue', margin:'2px'}}>{oldBillPop&&oldBillPop.bid?oldBillPop.bid:newBill.bid}</p>
                 </div>
-                <button className='save-bill-btn'><img className='save-add-plus' src={addPlus}/></button>
+                {
+/*|||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||.......................|||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||.......................|||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+*/
+                }
+                <button className='save-bill-btn' onClick={(e)=>handleAddBill(e)}><img className='save-add-plus' src={addPlus}/></button>
                 </div>
 
                 <div className='new-bill-space'>
@@ -256,15 +356,21 @@ useEffect(()=>console.log('newBill changed'),[newBill])
         
 
         <div className="right-pane old-bills-section">
-                <div className='section-header'> 
-                <input type="text"/>
+                <div className='right-section-header'> 
+                <div className='filter-bills'><FilterComponent  onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} /></div>
+                <button className='arrange' onClick={(e)=>handleArrange(e)} ><img className='cancel-icon' src={sortIcon}/></button>
                 </div>
 
 
 
                   <div className='old-bills-space'>
-                  <div style={{fontSize:8}}>{bills&&bills.length>0?
-                    bills.map(
+                  
+                  <div style={{fontSize:8}}>
+                  
+                   {//filteredItems&&filteredItems.length>0?
+                    bills&&bills.length>0?
+                    //filteredItems.map(
+                      bills.map(
                       (x)=>
                       <div onClick={(e)=>handleCardClick(e,x.bid)}>
                       <BillCard
@@ -277,7 +383,8 @@ useEffect(()=>console.log('newBill changed'),[newBill])
                     />
                       </div>)
                       :
-                      <div></div>}
+                    <div></div>}
+                 
                     </div>
                   </div>
                 </div>

@@ -1,14 +1,15 @@
 .save-bill-pop{
-    width:45vw;
-    height:auto;
+    width:75vw;
+    height:95vh;
     position:fixed;
-    left:22vw;
-    top:10vh;
+    left:12vw;
+    top:1vh;
     background:rgb(90, 192, 144);
     border:solid black 5px;
-    padding:70px;
+    padding:10px;
     justify-content: center;
-    z-index :100000
+    z-index :100000;
+    overflow-y: scroll;
     
 }
 .pop-header{
@@ -44,4 +45,16 @@
 .btns-section{
     display: flex;
     flex-direction: row;
+}
+td{
+    align-items: center;
+    justify-content: center;
+    background-color: azure;
+    max-width: 50px;
+}
+th{
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(72, 192, 192);
+    
 }

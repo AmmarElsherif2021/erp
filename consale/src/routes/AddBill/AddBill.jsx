@@ -21,7 +21,13 @@ import ControllableStates from './ControllableStates'
 import DataTable from 'react-data-table-component';
 import FilterComponent from '../../layout/FilterComponent/FilterComponent';
 import SaveBillPop from '../../layout/popups/SaveBillPop/SaveBillPop';
-
+const getDate=()=>{
+  const today = new Date();
+  const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const dateTime = date + ' ' + time;
+  return dateTime;
+}
 const AddBill=()=>{
 useEffect(()=>console.log(stockData),[])
 // Create new actual bill
@@ -35,7 +41,18 @@ const [newBill,setNewBill]=useState(
         "items":[],
         "debt":0,
         "date":"",
-        "time":""
+        "records":
+         [
+          
+          {
+          "date":getDate(),
+          "paid":0,
+          "debt":0,
+          "added_items":[],
+          "restored_items":[] 
+        }
+          
+         ]
   }
   );
 useEffect(()=>console.log('newBill changed'),[newBill])
@@ -72,6 +89,30 @@ useEffect(()=>console.log('newBill changed'),[newBill])
         req_qty: 0,
         total: newItem.req_qty * newItem.price_unit,
       });
+  
+      setNewBill((prev) => ({
+        ...prev,
+        records: newBill.records.added_items&&newBill.records.added_items.length>1?[
+          ...newBill.records.slice(0, -1),
+          {
+            ...newBill.records[newBill.records.length - 1],
+            
+            added_items: [...newBill.records.added_items,newAdded],
+          },
+        ]:[
+         
+          {
+          "date":getDate(),
+          "paid":newBill.paid,
+          "debt":newBill.debt,
+          "added_items":[{...newAdded}],
+          "restored_items":[] 
+        }
+          
+         
+          
+        ]
+      }));
       console.log(`new added =============================>${JSON.stringify(newItem)}`);
     };
     
@@ -105,6 +146,7 @@ useEffect(()=>console.log('newBill changed'),[newBill])
   
     if (newAdded && newAdded.id === id) {
       setAddedItems((prev) => [...prev, newAdded]); // Add newAdded regardless of addedItems' length
+
     } else {
       console.log(`did not add ${JSON.stringify(newAdded)} to bill items list`);
     }
@@ -139,7 +181,20 @@ useEffect(()=>console.log('newBill changed'),[newBill])
    };
    const openBill=()=>{
       setAddedItems(()=>[...oldBillPop.items]);
-      setNewBill((prev)=>({...prev,bid:oldBillPop.bid,c_name:oldBillPop.c_name,c_phone:oldBillPop.c_phone}))
+      setNewBill((prev)=>({...prev,
+                          bid:oldBillPop.bid,
+                          c_name:oldBillPop.c_name,
+                          c_phone:oldBillPop.c_phone,
+                          records:[...oldBillPop.records,
+                            {
+                              "date":getDate(),
+                              "paid":0,
+                              "debt":0,
+                              "added_items":[],
+                              "restored_items":[] 
+                            }
+                          ]
+                        }))
       setOldBillPop({})
    }
    useEffect(() => {
@@ -153,7 +208,7 @@ useEffect(()=>console.log('newBill changed'),[newBill])
   useEffect(()=>console.log('filtering'),[filterText]);
   useEffect(()=>console.log('paginating'),[resetPaginationToggle]);
 
-  const filteredItems = billsData.filter(
+  const filteredItems = bills.filter(
       item => item.c_name && item.c_name.toLowerCase().includes(filterText.toLowerCase()),
   );
   const handleClear = () => {
@@ -163,15 +218,17 @@ useEffect(()=>console.log('newBill changed'),[newBill])
         }
     };
 
-    //arrange bills based on debt
+    //arrange bills based on debt |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     const [arranged,setArranged]=useState(false);
-    useEffect(()=>console.log('arranging?'),[arranged])
-    useEffect(()=>console.log(arranged),[arranged,bills])
+    useEffect(()=>console.log('arranging?'),[arranged]);
+    useEffect(()=>console.log(arranged),[arranged,bills]);
+    
+    
     const handleArrange=(e)=>{
       e.preventDefault();
-      const sortedArr=billsData.sort((p1,p2)=>p1.debt<p2.debt?1:p1.debt>p2.debt?-1:0);
-        setArranged((prev)=>!prev);
-        arranged?setBills([...sortedArr]):setBills([...billsData])
+      const sortedArr=bills.sort((p1,p2)=>p1.debt<p2.debt?1:p1.debt>p2.debt?-1:0);
+      setArranged((prev)=>!prev);
+      arranged? setBills([...sortedArr]):setBills([...billsData]);
       }
     
   
@@ -191,18 +248,51 @@ const confirmSaveBill = (e) => {
   e.preventDefault();
   console.log('triggered');
   console.log(`bills 0 ${bills.map((x) => x.bid)}`);
-  confirmSave && setBills((prev) => [...prev, newBill]);
-  console.log(`bills 1 ${bills.map((x) => x.bid)}`);
-  setConfirmSave(false)
-};
+  
+  setArranged(false);
+  setBills([...billsData]);
 
+  confirmSave && setBills((prev) => [...prev, newBill]); //use api to write on local db;
+  setAddedItems([]);
+
+  setNewBill(()=>
+  ( 
+    {
+          "bid":`b-${ Math.random().toString(36).substring(2, 7).slice(0,5)}`,
+          "c_name":"",
+          "c_phone":"",
+          "b_total":0,
+          "discount":0,
+          "items":[],
+          "debt":0,
+          "date":"",
+          "records":
+          [
+           /*
+           {
+           "date":"",
+           "paid":0,
+           "debt":0,
+           "added_items":[],
+           "restored_items":[] 
+           }
+          */
+          ]
+    }
+    )
+  );
+  console.log(`bills 1 ${bills.map((x) => x.bid)}`);
+  setConfirmSave(false);
+
+};
+ 
 const cancelSaveBillPop = () => {
   setConfirmSave(false);
 };
 
 const handleAddBill = (e) => {
   setConfirmSave(true);
-  setNewBill((prev)=>({...prev,items:[...addedItems]}))
+  setNewBill((prev)=>({...prev,items:[...addedItems]}));
 };
 
 useEffect(() => console.log(`confirm save ?${confirmSave}`), [confirmSave]);
@@ -259,6 +349,7 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
           items={newBill.items}
           confirmSaveBill={confirmSaveBill}
           cancelSaveBillPop={cancelSaveBillPop}
+          records={newBill.records}
         />
           </div>
         ) : (
@@ -367,10 +458,10 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
                   
                   <div style={{fontSize:8}}>
                   
-                   {//filteredItems&&filteredItems.length>0?
-                    bills&&bills.length>0?
-                    //filteredItems.map(
-                      bills.map(
+                   {//bills&&bills.length>0 ?
+                   filteredItems&&filteredItems.length>0 ?
+                    //bills. map(
+                      filteredItems.map(
                       (x)=>
                       <div onClick={(e)=>handleCardClick(e,x.bid)}>
                       <BillCard
@@ -380,10 +471,13 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
                       date={x.date}
                       time={x.time}
                       debt={x.debt}
+                      records={x.records}
                     />
                       </div>)
                       :
-                    <div></div>}
+                    <div></div>
+                 
+                  }
                  
                     </div>
                   </div>

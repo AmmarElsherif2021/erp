@@ -77,6 +77,26 @@ const SaveBillPop = (props) => {
               <td>{debt}</td>
             </tr>
           </table>
+          <h4>Bill operations history -------------------------- </h4>
+          
+           {props.records&&props.records.map((y)=>(y&&
+          <table style={{ overflowY: "auto", border: "solid 2px" , alignItems:"center" }}>
+          <tr>
+            <th>History of op.</th><th>Debt</th><th>Paid</th>
+          </tr>
+          <tr>
+            <td>{y.date}</td><td>{y.debt}</td><td>{y.paid}</td>
+          </tr>
+          <tr>Added items</tr>
+          
+          <tr><th>name</th><th>qty</th><th>total</th></tr>
+          {y.added_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
+          <tr>Restored items</tr>
+          <tr><th>name</th><th>qty</th><th>total</th></tr>
+          {y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
+          </table>
+           ))}
+          
   
           <div className="btns-section">
             <button

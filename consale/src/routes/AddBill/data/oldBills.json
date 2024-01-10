@@ -31,9 +31,18 @@
           "total":750
         }
       ],
-      "debt":3,
-      "date":"01/01/2024",
-         "time":"00:00 pm"
+      "debt":50,
+      "date":"01/01/2024 - 00:00 PM",
+         "records":
+         [
+          {
+          "date":"01/01/2024 - 00:00 PM",
+          "paid":0,
+          "debt":50,
+          "added_items":[],
+          "restored_items":[] 
+        }
+         ]
     },
     {
       "bid":"b102",
@@ -67,9 +76,36 @@
           "total":750
         }
       ],
-      "debt":"0",
-      "date":"01/01/2024",
-      "time":"00:00 pm"
+      "debt":10,
+      "date":"01/01/2024 - 00:00 PM",
+      "records":
+         [
+          {
+          "date":"01/01/2024 - 00:00 PM",
+          "paid":0,
+          "debt":10,
+          "added_items":[
+            {
+              "ibid":"0008",
+              "name":"nails",
+              "req_qty":3,
+              "unit":"kg",
+              "price_unit":3,
+              "total":9
+            }
+          ],
+          "restored_items":[
+            {
+              "ibid":"0009",
+              "name":"grin paper",
+              "req_qty":5,
+              "unit":"cm",
+              "price_unit":10,
+              "total":50
+            }
+          ] 
+        }
+         ]
     },
     {
       "bid":"b103",
@@ -104,7 +140,16 @@
         }
       ],
       "debt":30,
-      "date":"01/01/2024",
-         "time":"00:00 pm"
+      "date":"01/01/2024 - 00:00 PM",
+      "records":
+         [
+          {
+          "date":"01/01/2024 - 00:00 PM",
+          "paid":0,
+          "debt":30,
+          "added_items":[],
+          "restored_items":[] 
+        }
+         ]
     }
   ]

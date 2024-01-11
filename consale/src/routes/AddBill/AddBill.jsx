@@ -31,30 +31,27 @@ const getDate=()=>{
 const AddBill=()=>{
 useEffect(()=>console.log(stockData),[])
 // Create new actual bill
-const [newBill,setNewBill]=useState(
-  {
-        "bid":`b-${ Math.random().toString(36).substring(2, 7).slice(0,5)}`,
-        "c_name":"",
-        "c_phone":"",
-        "b_total":0,
-        "discount":0,
-        "items":[],
-        "debt":0,
-        "date":"",
-        "records":
-         [
-          
-          {
-          "date":getDate(),
-          "paid":0,
-          "debt":0,
-          "added_items":[],
-          "restored_items":[] 
-        }
-          
-         ]
-  }
-  );
+const [newBill, setNewBill] = useState({
+  bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
+  c_name: "",
+  c_phone: "",
+  b_total: 0,
+  discount: 0,
+  items: [],
+  paid:0,
+  debt: 0,
+  date: getDate(),
+  records: [
+    {
+      date: getDate(),
+      paid: 0,
+      debt: 0,
+      added_items: [],
+      restored_items: [],
+    },
+  ],
+});
+
 useEffect(()=>console.log('newBill changed'),[newBill])
 //Left section >> Create bill section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //|||||||||||||||||||||||||||||||||||||||||||||---||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -90,29 +87,7 @@ useEffect(()=>console.log('newBill changed'),[newBill])
         total: newItem.req_qty * newItem.price_unit,
       });
   
-      setNewBill((prev) => ({
-        ...prev,
-        records: newBill.records.added_items&&newBill.records.added_items.length>1?[
-          ...newBill.records.slice(0, -1),
-          {
-            ...newBill.records[newBill.records.length - 1],
-            
-            added_items: [...newBill.records.added_items,newAdded],
-          },
-        ]:[
-         
-          {
-          "date":getDate(),
-          "paid":newBill.paid,
-          "debt":newBill.debt,
-          "added_items":[{...newAdded}],
-          "restored_items":[] 
-        }
-          
-         
-          
-        ]
-      }));
+      
       console.log(`new added =============================>${JSON.stringify(newItem)}`);
     };
     
@@ -180,19 +155,16 @@ useEffect(()=>console.log('newBill changed'),[newBill])
     setOldBillPop({})
    };
    const openBill=()=>{
-      setAddedItems(()=>[...oldBillPop.items]);
+     // setAddedItems(()=>[...oldBillPop.items]);
       setNewBill((prev)=>({...prev,
                           bid:oldBillPop.bid,
                           c_name:oldBillPop.c_name,
                           c_phone:oldBillPop.c_phone,
-                          records:[...oldBillPop.records,
-                            {
-                              "date":getDate(),
-                              "paid":0,
-                              "debt":0,
-                              "added_items":[],
-                              "restored_items":[] 
-                            }
+                          date:oldBillPop.date,
+                          items:oldBillPop.items,
+                          debt:oldBillPop.debt,
+                          paid:oldBillPop.paid,
+                          records:[...oldBillPop.records
                           ]
                         }))
       setOldBillPop({})
@@ -245,44 +217,57 @@ useEffect(()=>console.log('newBill changed'),[newBill])
 */
 const [confirmSave,setConfirmSave]=useState(false);
 const confirmSaveBill = (e) => {
-  e.preventDefault();
-  console.log('triggered');
-  console.log(`bills 0 ${bills.map((x) => x.bid)}`);
-  
-  setArranged(false);
-  setBills([...billsData]);
+        e.preventDefault();
+        setNewBill((prev) => ({
+          ...prev,
+          records:
+            newBill.records["added_items"] && newBill.records["added_items"].length > 1
+              ? [
+                  ...newBill.records.slice(0, -1),
+                  {
+                    ...newBill.records[newBill.records.length - 1],
+                    date:getDate(),
+                    debt:newBill.debt,
+                    paid:newBill.paid,
+                    added_items:newAdded.length&&[...newAdded ],
+                    restored_items: []
+                  },
+                ]
+              : [
+                  {
+                    date: getDate(),
+                    paid: newBill.paid,
+                    debt: newBill.debt,
+                    added_items: newAdded.length&&[...newAdded ],
+                    restored_items: []
+                  },
+                ],
+        }));
+        
+        setBills(()=>bills.filter((x)=>x.bid!=newBill.bid));
+        confirmSave && setBills((prev) => [...prev, newBill]); //use api to write on local db;
+        //check data is saved correctly in bills
+        console.log(`####################### data of new bill: paid ${newBill.paid} - debt ${newBill.debt} - date ${newBill.date}`)
+        setAddedItems([]);
 
-  confirmSave && setBills((prev) => [...prev, newBill]); //use api to write on local db;
-  setAddedItems([]);
-
-  setNewBill(()=>
-  ( 
-    {
-          "bid":`b-${ Math.random().toString(36).substring(2, 7).slice(0,5)}`,
-          "c_name":"",
-          "c_phone":"",
-          "b_total":0,
-          "discount":0,
-          "items":[],
-          "debt":0,
-          "date":"",
-          "records":
-          [
-           /*
-           {
-           "date":"",
-           "paid":0,
-           "debt":0,
-           "added_items":[],
-           "restored_items":[] 
-           }
-          */
-          ]
-    }
-    )
-  );
-  console.log(`bills 1 ${bills.map((x) => x.bid)}`);
-  setConfirmSave(false);
+        setNewBill(() => ({
+          
+            bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
+            c_name: "",
+            c_phone: "",
+            b_total: 0,
+            discount: 0,
+            items: [],
+            paid:0,
+            debt: 0,
+            date: getDate(),
+            records: [
+            ],
+          
+        }));
+        
+        console.log(`bills 1 ${bills.map((x) => x.bid)}`);
+        setConfirmSave(false);
 
 };
  
@@ -290,14 +275,24 @@ const cancelSaveBillPop = () => {
   setConfirmSave(false);
 };
 
+const updatePayments=(p,d)=>{
+  setNewBill((prev)=>({
+    ...prev,
+    paid:p,
+    debt:d
+  }))
+}
+
 const handleAddBill = (e) => {
   setConfirmSave(true);
-  setNewBill((prev)=>({...prev,items:[...addedItems]}));
+  setNewBill((prev)=>({...prev,items:[...newBill.items,...addedItems]}));
+  
 };
 
-useEffect(() => console.log(`confirm save ?${confirmSave}`), [confirmSave]);
 
-useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
+useEffect(() => console.log(`confirm save ?${confirmSave}`), [confirmSave]);
+useEffect(()=>console.log(''),[confirmSave,newBill]);
+useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
   //Final stage of confirm pop that substracts the actual db data|||||||||||||||||||||||||||||||||||||||||;
     return(
         <div className="route-content add-bill">
@@ -334,6 +329,8 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
             items={oldBillPop.items}
             date={oldBillPop.date}
             time={oldBillPop.time}
+            paid={oldBillPop.paid}
+            debt={oldBillPop.debt}
             cancelBillPop={cancelBillPop}
             openBill={openBill}
 
@@ -349,6 +346,7 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
           items={newBill.items}
           confirmSaveBill={confirmSaveBill}
           cancelSaveBillPop={cancelSaveBillPop}
+          updatePayments={updatePayments}
           records={newBill.records}
         />
           </div>
@@ -376,11 +374,11 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
                 <div className='bill-data-box'>
                 <div style={{display:'flex',flexDirection:'row'}}>
                 <h4>name</h4>
-                <input
+                {newBill.records.length>1?<h4>{': '}{newBill.c_name}</h4>:<input
                 style={{maxHeight:'30px',margin:'5px',maxWidth:'120px'}}
                 type='text' 
                 onChange={(e)=>setNewBill((prev)=>({...prev,c_name:e.target.value}))}
-                value={oldBillPop&&oldBillPop.bid?oldBillPop.c_name:newBill.c_name}/>
+                value={oldBillPop&&oldBillPop.bid?oldBillPop.c_name:newBill.c_name}/>}
                 </div>
 
                 <div style={{display:'flex',flexDirection:'row'}}>
@@ -423,6 +421,16 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills])
                   <td>Price/Unit</td>
                   <td>Total</td>
                 </tr>
+                {newBill.items?[...newBill.items].map((x)=>
+                  (<tr>
+                  <td  style={{backgroundColor:"red"}}>{x.name}</td>
+                  <td>{x.req_qty}</td>
+                  <td>{x.unit}</td>
+                  <td>${x.price_unit}</td>
+                  <td>${x.total}</td>
+                  <td><button onClick={()=>setAddedItems((prev)=>prev.filter((y)=>y.ibid!=x.ibid))}>-</button></td>
+                </tr>))
+                  :(<tr></tr>)}
                 {addedItems.length?addedItems.map((x)=>
                   (<tr>
                   <td>{x.name}</td>

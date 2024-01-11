@@ -59,6 +59,7 @@ const BillPop=(props)=>{
                 </tr>))}
             <tr>  
             <td>Total: {props.total}</td>
+            <td>Paid: {props.paid}</td>
             <td>Debt: {props.debt}</td>
             <td></td>
             <td></td>

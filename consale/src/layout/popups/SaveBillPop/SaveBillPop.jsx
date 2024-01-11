@@ -3,7 +3,7 @@ import cancelIcon from '../../../assets/cancel.svg';
 import { useState,useEffect } from 'react';
 const SaveBillPop = (props) => {
     const billTotal = props.items.reduce((acc, obj) => acc + obj.total, 0);
-    const { cancelSaveBillPop, confirmSaveBill } = props;
+    const {updatePayments, cancelSaveBillPop, confirmSaveBill } = props;
     const [debt, setDebt] = useState(billTotal);
     const [paid, setPaid] = useState(0);
     
@@ -18,8 +18,22 @@ const SaveBillPop = (props) => {
       e.preventDefault();
       setPaid(e.target.value);
       billTotal >= paid && setDebt(billTotal - paid);
+    
     };
-  
+    const handleSaveClick=(e)=>
+      { updatePayments(paid, debt);
+        Promise.all([updatePayments(paid, debt)])
+          .then(() => {
+            console.log('payments updates sent from pop ');
+            console.log(`paid: ${paid}, debt: ${debt}`)
+            confirmSaveBill(e);
+           
+          })
+          .catch((error) => {
+            console.log(`$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ did not update payments ${error}`);
+          });
+      }
+    
     return (
       <div className="save-bill-pop">
         <button className="cancel-save-bill-pop" onClick={cancelSaveBillPop}>
@@ -93,7 +107,7 @@ const SaveBillPop = (props) => {
           {y.added_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
           <tr>Restored items</tr>
           <tr><th>name</th><th>qty</th><th>total</th></tr>
-          {y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
+          {y&&y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
           </table>
            ))}
           
@@ -101,7 +115,8 @@ const SaveBillPop = (props) => {
           <div className="btns-section">
             <button
               className="confirm-save-bill-pop"
-              onClick={(e) => confirmSaveBill(e)}
+              onClick={(e) =>  handleSaveClick(e)
+              }
             >
               Confirm
             </button>

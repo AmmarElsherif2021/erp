@@ -8,7 +8,7 @@
          "items":[
         {
           "ibid":"0001",
-          "name":"nails",
+          "name":"nnnnnnnnnnnnnails",
           "req_qty":5,
           "unit":"kg",
           "price_unit":5,
@@ -16,7 +16,7 @@
         },
         {
           "ibid":"0002",
-          "name":"grinding paper",
+          "name":"grinnnnnnnnding paper",
           "req_qty":10,
           "unit":"m",
           "price_unit":5,
@@ -32,16 +32,11 @@
         }
       ],
       "debt":50,
+      "paid":0,
       "date":"01/01/2024 - 00:00 PM",
          "records":
          [
-          {
-          "date":"01/01/2024 - 00:00 PM",
-          "paid":0,
-          "debt":50,
-          "added_items":[],
-          "restored_items":[] 
-        }
+          
          ]
     },
     {
@@ -54,15 +49,15 @@
         {
           "ibid":"0001",
           "name":"nails",
-          "req_qty":5,
+          "req_qty":88,
           "unit":"kg",
           "price_unit":5,
           "total":25
         },
         {
           "ibid":"0002",
-          "name":"grinding paper",
-          "req_qty":10,
+          "name":"paper",
+          "req_qty":199999,
           "unit":"m",
           "price_unit":5,
           "total":50
@@ -77,6 +72,7 @@
         }
       ],
       "debt":10,
+      "paid":0,
       "date":"01/01/2024 - 00:00 PM",
       "records":
          [
@@ -95,14 +91,7 @@
             }
           ],
           "restored_items":[
-            {
-              "ibid":"0009",
-              "name":"grin paper",
-              "req_qty":5,
-              "unit":"cm",
-              "price_unit":10,
-              "total":50
-            }
+            
           ] 
         }
          ]
@@ -140,16 +129,11 @@
         }
       ],
       "debt":30,
+      "paid":0,
       "date":"01/01/2024 - 00:00 PM",
       "records":
          [
-          {
-          "date":"01/01/2024 - 00:00 PM",
-          "paid":0,
-          "debt":30,
-          "added_items":[],
-          "restored_items":[] 
-        }
+          
          ]
     }
   ]

@@ -5,7 +5,7 @@ import './AddBill.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import cancelIcon from '../../assets/cancel.svg';
 import sortIcon from '../../assets/sort.svg';
-
+import { useBill,BillContext,BillProvider } from './billContext';
 import { useEffect, useState,useMemo } from 'react';
 import ItemToBill from '../../layout/popups/ItemToBill/ItemToBill';
 import BillCard from '../../layout/cards/BillCard/BillCard';
@@ -31,7 +31,15 @@ const getDate=()=>{
 const AddBill=()=>{
 useEffect(()=>console.log(stockData),[])
 // Create new actual bill
-const [newBill, setNewBill] = useState({
+const {newBill,setNewBill}=useBill();
+useEffect(() => {
+  setNewBill((prevBill) => ({
+    ...prevBill,
+    date: getDate(),
+  }));
+}, []);
+
+/*const [newBill, setNewBill] = useState({
   bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
   c_name: "",
   c_phone: "",
@@ -51,7 +59,7 @@ const [newBill, setNewBill] = useState({
     },
   ],
 });
-
+*/
 useEffect(()=>console.log('newBill changed'),[newBill])
 //Left section >> Create bill section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //|||||||||||||||||||||||||||||||||||||||||||||---||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -283,9 +291,13 @@ const updatePayments=(p,d)=>{
   }))
 }
 
+
+
 const handleAddBill = (e) => {
   setConfirmSave(true);
   setNewBill((prev)=>({...prev,items:[...newBill.items,...addedItems]}));
+  
+  
   
 };
 
@@ -295,6 +307,7 @@ useEffect(()=>console.log(''),[confirmSave,newBill]);
 useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
   //Final stage of confirm pop that substracts the actual db data|||||||||||||||||||||||||||||||||||||||||;
     return(
+      <BillProvider>
         <div className="route-content add-bill">
 
 
@@ -348,6 +361,8 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
           cancelSaveBillPop={cancelSaveBillPop}
           updatePayments={updatePayments}
           records={newBill.records}
+          debt={newBill.debt}
+          paid={newBill.paid}
         />
           </div>
         ) : (
@@ -374,7 +389,7 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
                 <div className='bill-data-box'>
                 <div style={{display:'flex',flexDirection:'row'}}>
                 <h4>name</h4>
-                {newBill.records.length>1?<h4>{': '}{newBill.c_name}</h4>:<input
+                {newBill&&newBill.records&&newBill.records.length>1?<h4>{': '}{newBill.c_name}</h4>:<input
                 style={{maxHeight:'30px',margin:'5px',maxWidth:'120px'}}
                 type='text' 
                 onChange={(e)=>setNewBill((prev)=>({...prev,c_name:e.target.value}))}
@@ -477,7 +492,7 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
                       cName={x.c_name} 
                       bTotal={x.b_total}
                       date={x.date}
-                      time={x.time}
+                      
                       debt={x.debt}
                       records={x.records}
                     />
@@ -496,7 +511,8 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
      
                   
 
-        
+          </BillProvider>    
     )
+
 };
 export default AddBill

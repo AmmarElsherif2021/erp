@@ -8,6 +8,7 @@ import Stock from './routes/Stock/Stock';
 import { UserProvider, useUser} from './userContext'; 
 import { RouterProvider } from 'react-router-dom';
 import AccCard from './layout/cards/AccCard/AccCard';
+import { BillProvider } from './routes/AddBill/billContext';
 
 
 const Routes=()=>{
@@ -31,7 +32,7 @@ const Routes=()=>{
          ,
         {
           path: "AddBill",
-          element: user && user.isLogged ? <AddBill /> : <Navigate to="/" />
+          element: user && user.isLogged ? <BillProvider><AddBill /></BillProvider> : <Navigate to="/" />
         },
         {
           path: "Stock",

@@ -27,9 +27,6 @@ const BillCard=(props)=>{
                 <h2>
                 <span>{props.date}</span>
                 </h2>
-                <h2>
-                <span>{props.time}</span>
-                </h2>
         </div>
         <div className='card-p'>
             <h2>
@@ -37,6 +34,9 @@ const BillCard=(props)=>{
             </h2>
             <h2>
                 <span>Debt: {props.debt}</span>
+            </h2>
+            <h2>
+                <span>Paid: {props.paid}</span>
             </h2>
         </div>
 

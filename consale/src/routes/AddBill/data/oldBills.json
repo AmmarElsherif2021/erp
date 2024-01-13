@@ -31,7 +31,7 @@
           "total":750
         }
       ],
-      "debt":50,
+      "debt":0,
       "paid":0,
       "date":"01/01/2024 - 00:00 PM",
          "records":
@@ -71,7 +71,7 @@
           "total":750
         }
       ],
-      "debt":10,
+      "debt":0,
       "paid":0,
       "date":"01/01/2024 - 00:00 PM",
       "records":
@@ -79,7 +79,7 @@
           {
           "date":"01/01/2024 - 00:00 PM",
           "paid":0,
-          "debt":10,
+          "debt":0,
           "added_items":[
             {
               "ibid":"0008",
@@ -128,7 +128,7 @@
           "total":750
         }
       ],
-      "debt":30,
+      "debt":0,
       "paid":0,
       "date":"01/01/2024 - 00:00 PM",
       "records":

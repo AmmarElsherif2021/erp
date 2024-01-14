@@ -5,7 +5,7 @@ import './AddBill.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import cancelIcon from '../../assets/cancel.svg';
 import sortIcon from '../../assets/sort.svg';
-import { useBill,BillContext,BillProvider } from './billContext';
+import { useBill,BillContext,BillProvider } from '../../billContext';
 import { useEffect, useState,useMemo } from 'react';
 import ItemToBill from '../../layout/popups/ItemToBill/ItemToBill';
 import BillCard from '../../layout/cards/BillCard/BillCard';
@@ -28,13 +28,17 @@ const getDate=()=>{
   const dateTime = date + ' ' + time;
   return dateTime;
 }
+
+  
 const AddBill=()=>{
+
 useEffect(()=>console.log(stockData),[])
 // Create new actual bill
 const {newBill,setNewBill}=useBill();
 useEffect(() => {
-  setNewBill((prevBill) => ({
+  !newBill.bid && setNewBill((prevBill) => ({
     ...prevBill,
+    bid:`b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
     date: getDate(),
   }));
 }, []);
@@ -208,7 +212,7 @@ useEffect(()=>console.log('newBill changed'),[newBill])
       e.preventDefault();
       const sortedArr=bills.sort((p1,p2)=>p1.debt<p2.debt?1:p1.debt>p2.debt?-1:0);
       setArranged((prev)=>!prev);
-      arranged? setBills([...sortedArr]):setBills([...billsData]);
+      arranged? setBills([...sortedArr]):setBills([...bills]);
       }
     
   
@@ -224,10 +228,16 @@ useEffect(()=>console.log('newBill changed'),[newBill])
 |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 */
 const [confirmSave,setConfirmSave]=useState(false);
-const confirmSaveBill = (e) => {
+const confirmSaveBill = (e,bid,cName,cPhone,date,p,d) => {
         e.preventDefault();
         setNewBill((prev) => ({
           ...prev,
+          bid:bid,
+          c_name:cName,
+          c_phone:cPhone,
+          date:date,
+          paid:p,
+          debt:d,
           records:
             newBill.records["added_items"] && newBill.records["added_items"].length > 1
               ? [
@@ -235,8 +245,8 @@ const confirmSaveBill = (e) => {
                   {
                     ...newBill.records[newBill.records.length - 1],
                     date:getDate(),
-                    debt:newBill.debt,
-                    paid:newBill.paid,
+                    debt:d,
+                    paid:p,
                     added_items:newAdded.length&&[...newAdded ],
                     restored_items: []
                   },
@@ -359,7 +369,7 @@ useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
           items={newBill.items}
           confirmSaveBill={confirmSaveBill}
           cancelSaveBillPop={cancelSaveBillPop}
-          updatePayments={updatePayments}
+          bTotal={newBill.b_total}
           records={newBill.records}
           debt={newBill.debt}
           paid={newBill.paid}

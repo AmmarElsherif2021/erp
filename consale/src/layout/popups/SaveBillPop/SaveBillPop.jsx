@@ -1,42 +1,61 @@
 import './SaveBillPop.css';
 import cancelIcon from '../../../assets/cancel.svg';
 import { useState,useEffect } from 'react';
-import { BillProvider, useBill } from '../../../routes/AddBill/billContext';
+import { BillProvider, useBill } from '../../../billContext';
+const getDate=()=>{
+  const today = new Date();
+  const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const dateTime = date + ' ' + time;
+  return dateTime;
+}
+
+
+
 const SaveBillPop = (props) => {
   const {newBill,setNewBill}=useBill();
     const billTotal = props.items.reduce((acc, obj) => acc + obj.total, 0);
-    const {updatePayments, cancelSaveBillPop, confirmSaveBill } = props;
-    const [debt, setDebt] = useState(billTotal);
-    const [paid, setPaid] = useState(0);
+    const { cancelSaveBillPop, confirmSaveBill } = props;
+
     
     useEffect(()=>{
       newBill.items.reduce((acc,curr)=>acc+curr.total,0)
-      setNewBill((prev)=>({...prev,b_total:billTotal}))},[])
-    const handlePaid = (e) => {
-
-      setPaid(e.target.value);
+      setNewBill((prev)=>(
+        {
+          bid: props.bid,
+          c_name: props.c_name,
+          c_phone: props.c_phone,
+          discount: 0,
+          items:props.items,
+          paid:props.paid,
+          debt: props.debt,
+          date: props.date,
+          b_total:billTotal,
+          records:props.records
+      }
+        ))},[]);
+        const [debt, setDebt] = useState(props.debt);
+        const [paid, setPaid] = useState(0);
+   
+        useEffect(()=>setDebt(setDebt(billTotal-paid)),[paid])
+   
+        const handlePaid = (e) => {
+        setPaid(e.target.value)
+         
+        setNewBill((prev)=>({
+          ...prev,
+          paid:paid,
+          debt:debt
+        }))
     };
-    const updateDebt = () => {
-      setDebt(()=>newBill.b_total - paid);
-      setNewBill((prev) => ({
-        ...prev,
-        debt: debt,
-        paid:paid
-      }));
-    };
-
-    useEffect(() => {
-      
-      updateDebt();
-
-    }, [paid]);
+    useEffect(()=>console.log(newBill.paid),[paid,newBill])
     
     const handleSaveClick=(e)=>
-      {
+    {
           console.log('payments updates sent from pop ');
-          console.log(`paid: ${paid}, debt: ${debt}`);
-          updatePayments(paid,debt);
-          confirmSaveBill(e);
+          //console.log(`paid: ${paid}, debt: ${debt}`);
+          //updatePayments(paid,debt);
+          confirmSaveBill(e,props.bid,props.cName,props.cPhone,props.p,props.d);
       }
     
     return (
@@ -87,7 +106,7 @@ const SaveBillPop = (props) => {
             <input
               type="number"
               min={0}
-              max={newBill.b_total}
+              max={billTotal}
               value={paid}
               onChange={(e) => handlePaid(e)}
             />
@@ -97,7 +116,8 @@ const SaveBillPop = (props) => {
             <td>{debt}</td>
           </tr>
         </table>
-        <h4>Bill operations history --{JSON.stringify(newBill)}------total: {newBill.b_total}------------------debt:{newBill.debt}-----------paid: {newBill.paid} </h4>
+        <h4>Bill operations history JSON--------{JSON.stringify(newBill)}-----
+        <br/>--bid: {props.bid}----------total: {newBill.b_total}------------------paid:{newBill.paid}-----------paid: {newBill.paid} </h4>
         
          {props.records&&props.records.map((y)=>(y&&
         <table style={{ overflowY: "auto", border: "solid 2px" , alignItems:"center" }}>

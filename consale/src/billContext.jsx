@@ -13,7 +13,7 @@ export const useBill = () => {
 export const BillProvider=({ children })=> {
   // Use the custom hook to get the newBill state 
   const [newBill, setNewBill] = useState({
-    bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
+    bid: ``,
     c_name: "",
     c_phone: "",
     b_total: 0,

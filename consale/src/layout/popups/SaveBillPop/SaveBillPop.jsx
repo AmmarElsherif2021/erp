@@ -2,6 +2,7 @@ import './SaveBillPop.css';
 import cancelIcon from '../../../assets/cancel.svg';
 import { useState,useEffect } from 'react';
 import { BillProvider, useBill } from '../../../billContext';
+import { ProgressBar } from 'react-bootstrap';
 const getDate=()=>{
   const today = new Date();
   const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -13,49 +14,28 @@ const getDate=()=>{
 
 
 const SaveBillPop = (props) => {
-  const {newBill,setNewBill}=useBill();
+  //const {newBill,setNewBill}=useBill();
     const billTotal = props.items.reduce((acc, obj) => acc + obj.total, 0);
     const { cancelSaveBillPop, confirmSaveBill } = props;
 
-    
-    useEffect(()=>{
-      newBill.items.reduce((acc,curr)=>acc+curr.total,0)
-      setNewBill((prev)=>(
-        {
-          bid: props.bid,
-          c_name: props.c_name,
-          c_phone: props.c_phone,
-          discount: 0,
-          items:props.items,
-          paid:props.paid,
-          debt: props.debt,
-          date: props.date,
-          b_total:billTotal,
-          records:props.records
-      }
-        ))},[]);
-        const [debt, setDebt] = useState(props.debt);
+ 
         const [paid, setPaid] = useState(0);
-   
-        useEffect(()=>setDebt(setDebt(billTotal-paid)),[paid])
+        const [debt, setDebt] = useState(props.debt?Number(props.debt):billTotal);
+        useEffect(()=>props.debt?setDebt(billTotal-paid):setDebt(billTotal-paid),[paid])
    
         const handlePaid = (e) => {
         setPaid(e.target.value)
          
-        setNewBill((prev)=>({
-          ...prev,
-          paid:paid,
-          debt:debt
-        }))
+        
     };
-    useEffect(()=>console.log(newBill.paid),[paid,newBill])
+    //useEffect(()=>console.log(newBill.paid),[paid,newBill])
     
     const handleSaveClick=(e)=>
-    {
+    {     e.preventDefault();
           console.log('payments updates sent from pop ');
           //console.log(`paid: ${paid}, debt: ${debt}`);
           //updatePayments(paid,debt);
-          confirmSaveBill(e,props.bid,props.cName,props.cPhone,props.p,props.d);
+          confirmSaveBill(props.bid,props.cName,props.cPhone,billTotal,paid,debt);
       }
     
     return (
@@ -99,7 +79,7 @@ const SaveBillPop = (props) => {
 
           <tr>
             <td>Bill Total</td>
-            <td>{newBill.b_total}</td>
+            <td>{billTotal}</td>
           </tr>
           <tr>
             <td>Paid</td>
@@ -116,10 +96,10 @@ const SaveBillPop = (props) => {
             <td>{debt}</td>
           </tr>
         </table>
-        <h4>Bill operations history JSON--------{JSON.stringify(newBill)}-----
-        <br/>--bid: {props.bid}----------total: {newBill.b_total}------------------paid:{newBill.paid}-----------paid: {newBill.paid} </h4>
+          <h4>Bill operations history JSON-------- -----
+        <br/>--bid: {props.bid}----------total: {billTotal}------------------paid:{paid}-----------debt: {debt} </h4>
         
-         {props.records&&props.records.map((y)=>(y&&
+         {props.records&&props.records.map((y)=>(y&&y.date&&
         <table style={{ overflowY: "auto", border: "solid 2px" , alignItems:"center" }}>
         <tr>
           <th>History of op.</th><th>Debt</th><th>Paid</th>

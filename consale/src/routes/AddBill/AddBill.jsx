@@ -102,17 +102,6 @@ useEffect(()=>console.log('newBill changed'),[newBill])
       
       console.log(`new added =============================>${JSON.stringify(newItem)}`);
     };
-    
-    const handleOptionClick = (event, value) => {
-      handleNewItemPop(event, value.id);
-    };
-    const getOptionSelected = (option, value) => {
-                    
-      return option.id === value.id; // Example comparing only the "id" property
-    };
-
-
-
     const handleReqQty=(reqQty)=>{
         setNewAdded((prev)=>({...prev,req_qty:reqQty,total:reqQty*Number(newAdded.price_unit)}))
     }
@@ -120,13 +109,6 @@ useEffect(()=>console.log('newBill changed'),[newBill])
       setNewAdded({})
     }
    
-    /*
-        useEffect
-        (()=>newAdded&&newAdded.id?console.log(`new added ${JSON.stringify(newAdded)} `)
-        :
-        console.log('there is no newAdded'),[newAdded]);
-    */
-
    //add selected newAdded item to bill
    const handleItemsListPush = (e, id) => {
     e.preventDefault();
@@ -228,16 +210,18 @@ useEffect(()=>console.log('newBill changed'),[newBill])
 |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 */
 const [confirmSave,setConfirmSave]=useState(false);
-const confirmSaveBill = (e,bid,cName,cPhone,date,p,d) => {
-        e.preventDefault();
+const confirmSaveBill = (bid,cName,cPhone,date,bTotal,p,d) => {
+        //e.preventDefault();
         setNewBill((prev) => ({
           ...prev,
           bid:bid,
           c_name:cName,
           c_phone:cPhone,
           date:date,
+          b_total:bTotal,
           paid:p,
           debt:d,
+
           records:
             newBill.records["added_items"] && newBill.records["added_items"].length > 1
               ? [
@@ -265,7 +249,7 @@ const confirmSaveBill = (e,bid,cName,cPhone,date,p,d) => {
         setBills(()=>bills.filter((x)=>x.bid!=newBill.bid));
         confirmSave && setBills((prev) => [...prev, newBill]); //use api to write on local db;
         //check data is saved correctly in bills
-        console.log(`####################### data of new bill: paid ${newBill.paid} - debt ${newBill.debt} - date ${newBill.date}`)
+        console.log(`####################### data of new bill${newBill.bid}: paid ${newBill.paid} - debt ${newBill.debt} - date ${newBill.date}`)
         setAddedItems([]);
 
         setNewBill(() => ({

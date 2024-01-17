@@ -20,11 +20,12 @@ const SaveBillPop = (props) => {
 
  
         const [paid, setPaid] = useState(0);
-        const [debt, setDebt] = useState(props.debt?Number(props.debt):billTotal);
-        useEffect(()=>props.debt?setDebt(billTotal-paid):setDebt(billTotal-paid),[paid])
-   
+        const [debt, setDebt] = useState(0);
+        //useEffect(()=>setPaid(props.paid),[]);
+        
+        useEffect(()=>setDebt(billTotal-paid-props.paid),[paid]);
         const handlePaid = (e) => {
-        setPaid(e.target.value)
+        setPaid(e.target.value);
          
         
     };
@@ -35,7 +36,7 @@ const SaveBillPop = (props) => {
           console.log('payments updates sent from pop ');
           //console.log(`paid: ${paid}, debt: ${debt}`);
           //updatePayments(paid,debt);
-          confirmSaveBill(props.bid,props.cName,props.cPhone,billTotal,paid,debt);
+          confirmSaveBill(props.bid,billTotal,paid,debt,props.items);
       }
     
     return (
@@ -83,14 +84,16 @@ const SaveBillPop = (props) => {
           </tr>
           <tr>
             <td>Paid</td>
-            <input
-              type="number"
-              min={0}
-              max={billTotal}
-              value={paid}
-              onChange={(e) => handlePaid(e)}
-            />
+           
           </tr>
+          <p>last paid : {props.paid}</p>
+          <input
+          type="number"
+          min={0}
+          max={debt}
+          value={paid}
+          onChange={(e) => handlePaid(e)}
+        /> 
           <tr>
             <td>Debt</td>
             <td>{debt}</td>
@@ -99,7 +102,8 @@ const SaveBillPop = (props) => {
           <h4>Bill operations history JSON-------- -----
         <br/>--bid: {props.bid}----------total: {billTotal}------------------paid:{paid}-----------debt: {debt} </h4>
         
-         {props.records&&props.records.map((y)=>(y&&y.date&&
+        
+         {props.records&&props.records.length&&props.records.map((y)=>(y&&y.date&&
         <table style={{ overflowY: "auto", border: "solid 2px" , alignItems:"center" }}>
         <tr>
           <th>History of op.</th><th>Debt</th><th>Paid</th>
@@ -109,11 +113,11 @@ const SaveBillPop = (props) => {
         </tr>
         <tr>Added items</tr>
         
-        <tr><th>name</th><th>qty</th><th>total</th></tr>
-        {y.added_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
+        {y&&y.added_items&&y.added_items.length?<tr><th>name</th><th>qty</th><th>total</th></tr>:` `}
+        {y&&y.added_items&&y.added_items.length?y.added_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>):`----------`}
         <tr>Restored items</tr>
-        <tr><th>name</th><th>qty</th><th>total</th></tr>
-        {y&&y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>)}
+        {y&&y.restord_items&&y.restord_items.length&&<tr><th>name</th><th>qty</th><th>total</th></tr>}
+        {y&&y.restord_items&&y.restord_items.length?y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>):`----------`}
         </table>
          ))}
         

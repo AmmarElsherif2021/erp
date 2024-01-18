@@ -1,0 +1,62 @@
+.print-pop{
+    width:50vw;
+    height:60vh;
+    position:fixed;
+    left:40vw;
+    top:15vh;
+    background:rgb(151, 199, 177);
+    border:solid black 5px;
+    z-index:1000;
+}
+.print-pop table{
+    width:100%;
+}
+.cancel-print-pop{
+    width:50px;
+    height:50px;
+    position:absolute;
+    top:-25px;
+    left:-25px;
+    border:solid black 5px;
+    background-color: rgb(216, 44, 44);
+    border-radius: 50%;
+
+}
+.cancel-icon{
+    width:40px;
+    position:absolute;
+    left:0;
+    top:0
+}
+.print-pop{
+    padding: 50px;
+    width:30vw;
+    height:40vh;
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+}
+.print-card-header{
+    
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    
+}
+.print-info{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.print-card-p{
+    display: flex;
+    flex-direction: row;
+    align-prints: center;
+    justify-content: space-between;
+}
+.print-pop-btn{
+    
+    border:solid black 2px;
+    background: none;
+    margin:3px;
+    width:100%;
+    max-width:100%;
+}

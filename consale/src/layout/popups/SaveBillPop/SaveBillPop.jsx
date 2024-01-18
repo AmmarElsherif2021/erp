@@ -17,6 +17,8 @@ const SaveBillPop = (props) => {
   //const {newBill,setNewBill}=useBill();
     const billTotal = props.items.reduce((acc, obj) => acc + obj.total, 0);
     const { cancelSaveBillPop, confirmSaveBill } = props;
+    const [saved,setSaved]=useState(false);
+    
 
  
         const [paid, setPaid] = useState(0);
@@ -130,6 +132,7 @@ const SaveBillPop = (props) => {
           >
             Confirm
           </button>
+         
           <button
             className="cancel-save-bill-pop"
             onClick={() => cancelSaveBillPop()}

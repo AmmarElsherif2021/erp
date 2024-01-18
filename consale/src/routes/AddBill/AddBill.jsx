@@ -11,6 +11,7 @@ import ItemToBill from '../../layout/popups/ItemToBill/ItemToBill';
 import BillCard from '../../layout/cards/BillCard/BillCard';
 import BillPop from '../../layout/popups/BillPop/BillPop';
 import addPlus from '../../assets/add-plus.svg';
+import PrintPop from '../../layout/popups/printPop/printPop';
 
 import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
@@ -64,27 +65,7 @@ useEffect(() => {
   }));
 }, []);
 
-/*const [newBill, setNewBill] = useState({
-  bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
-  c_name: "",
-  c_phone: "",
-  b_total: 0,
-  discount: 0,
-  items: [],
-  paid:0,
-  debt: 0,
-  date: getDate(),
-  records: [
-    {
-      date: getDate(),
-      paid: 0,
-      debt: 0,
-      added_items: [],
-      restored_items: [],
-    },
-  ],
-});
-*/
+
 useEffect(()=>console.log('newBill changed'),[newBill])
 //Left section >> Create bill section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //|||||||||||||||||||||||||||||||||||||||||||||---||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -165,7 +146,7 @@ useEffect(()=>console.log('newBill changed'),[newBill])
 
    const handleCardClick=(e,id)=>{
     e.preventDefault()
-     const clicked=bills.filter((x)=>x.bid==id)[0];
+     const clicked=bills&&bills.length?bills.filter((x)=>x.bid==id)[0]:{};
      setOldBillPop({...clicked})
    };
    const cancelBillPop=()=>{
@@ -219,7 +200,37 @@ useEffect(()=>console.log('newBill changed'),[newBill])
       setArranged((prev)=>!prev);
       arranged? setBills([...sortedArr]):setBills([...bills]);
       }
-    
+
+
+/*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||.............|||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||..............||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....|||||||...||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....|||||||...||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||..............||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||.............|||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+*/
+const [printPop,setPrintPop]=useState(false);
+useEffect(()=>console.log('printpop triggered'),[printPop]);
+const handleOpenPrint=(bid)=>{
+  //End point --->retrieve from data
+  //let printable=bills.filter((x)=>x.bid===bid)[0];
+};
+const handlePrint=()=>{
+  printPop&&printableBill.items&&printableBill.items.length&&
+  console.log(`Ready to print ${JSON.stringify(printableBill)}`);
+
+  setPrintPop(false);
+}
+const handleCancelPrint=()=>{
+  setPrintPop(false);
+};
+
   
 /*|||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -233,10 +244,12 @@ useEffect(()=>console.log('newBill changed'),[newBill])
 |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 */
 const [confirmSave,setConfirmSave]=useState(false);
-
+const [printableBill,setPrintableBill]=useState({});
+useEffect(()=>setPrintableBill({bid:newBill.bid,c_name:newBill.c_name,c_phone:newBill.c_phone}),[]);
+useEffect(()=>console.log(`..`),[bills])
 const confirmSaveBill = (id,bTotal,p,d,items) => {
        let totalPaid=Number(Number(p)+Number(newBill.paid));
-       let newCompleteBill={
+       setPrintableBill((prev)=>({
         
           bid:id,
           c_name:newBill.c_name,
@@ -245,6 +258,7 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
           paid:totalPaid,
           b_total:bTotal,
           discount:0,
+          date:newBill.date,
           items:items,
           records:
           newBill&&newBill.records&&newBill.records.length
@@ -258,7 +272,7 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
                     restored_items: []
                   },
                 ]
-              : [
+              : [ 
                   {
                     date: getDate(),
                     paid: totalPaid,
@@ -267,15 +281,15 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
                     restored_items: []
                   },
                 ],
-        }
+        }))
        
        
        
       
-        console.log(`JSON NEW BIL ||||||||||||||||||||||||||||||||||||>>>> ${JSON.stringify(newBill)}`);
+        console.log(`JSON NEW BILL ||||||||||||||||||||||||||||||||||||>>>> ${JSON.stringify(newBill)}`);
         //setNewBill((x)=>({...x,newBill}));
-       setBills((prev)=>([...prev.filter((x)=>x.bid!=id),newCompleteBill]))
-        setAddedItems([]);
+
+       
 
         setNewBill(() => ({
           
@@ -292,25 +306,24 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
            
           
         }));
+
         setConfirmSave(false);
+        setPrintPop(true);
+        setBills((prev)=>(
+        [...prev.filter((x)=>x.bid!=id),printableBill]));
+        setAddedItems([]);
         
         console.log(`bills 1 ${bills.map((x) => x.bid)}`);
         
 
 };
+
+
+
  useEffect(()=>console.log(`updated bill`),[newBill])
-const cancelSaveBillPop = () => {
-  setConfirmSave(false);
-};
-
-const updatePayments=(p,d)=>{
-  setNewBill((prev)=>({
-    ...prev,
-    paid:p,
-    debt:d
-  }))
-}
-
+  const cancelSaveBillPop = () => {
+    setConfirmSave(false);
+  };
 
 
 const handleAddBill = (e) => {
@@ -321,13 +334,26 @@ const handleAddBill = (e) => {
 
 
 useEffect(() => console.log(`confirm save ?${confirmSave}`), [confirmSave]);
-useEffect(()=>console.log(''),[confirmSave,bills]);
-useEffect(()=> console.log(`bills 1 ${bills.map((x)=>x.bid)}`),[bills]);
+//useEffect(()=>console.log(''),[confirmSave,bills]);
+useEffect(()=> console.log(`bills 11111111111111111111111111 ${bills.map((x)=>x.bid)}`),[bills]);
+
+
   //Final stage of confirm pop that substracts the actual db data|||||||||||||||||||||||||||||||||||||||||;
     return(
       
         <div className="route-content add-bill">
-
+        {
+          printPop?(<div><PrintPop 
+            cName={printableBill.c_name} 
+            cPhone={printableBill.c_phone}
+            bid={printableBill.bid} 
+            paid={printableBill.paid} 
+            debt={printableBill.debt} 
+            date={printableBill.date}
+            handleCancelPrint={handleCancelPrint}
+            handlePrint={handlePrint}
+            /></div>):(<div></div>)
+        }
 
         {
           newAdded&&newAdded.id?

@@ -76,24 +76,7 @@
       "date":"01/01/2024 - 00:00 PM",
       "records":
          [
-          {
-          "date":"01/01/2024 - 00:00 PM",
-          "paid":0,
-          "debt":0,
-          "added_items":[
-            {
-              "ibid":"0008",
-              "name":"nails",
-              "req_qty":3,
-              "unit":"kg",
-              "price_unit":3,
-              "total":9
-            }
-          ],
-          "restored_items":[
-            
-          ] 
-        }
+          
          ]
     },
     {
@@ -132,8 +115,7 @@
       "paid":0,
       "date":"01/01/2024 - 00:00 PM",
       "records":
-         [
-          
+         [       
          ]
     }
   ]

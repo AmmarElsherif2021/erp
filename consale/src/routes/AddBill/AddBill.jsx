@@ -106,6 +106,29 @@ useEffect(()=>console.log('newBill changed'),[newBill])
     };
     const handleReqQty=(reqQty)=>{
         setNewAdded((prev)=>({...prev,req_qty:reqQty,total:reqQty*Number(newAdded.price_unit)}))
+    };
+
+
+
+
+    //restore item from bill:
+    const [restored,setRestored]=useState([]);
+   
+    useEffect(()=>console.log(`item  restored------------------------------------------------------`),[restored])
+    const deleteOldItem=(x,id)=>{
+      newBill&&newBill.bid==id&&setNewBill((prev)=>({
+        ...prev,
+        items:[...prev.items.filter((y)=>y.ibid!=x.ibid)]
+        
+      }));
+      newBill&&newBill.items&&setRestored((prev)=>([...prev,x]));
+      console.log(`RESTORED: ${restored.map((y)=>JSON.stringify(y))}`)
+    }
+
+
+
+    const deleteNewItem=(x)=>{
+      setAddedItems((prev)=>prev.filter((y)=>y.ibid!=x.ibid))
     }
     const cancelItemToBill =()=>{
       setNewAdded({})
@@ -165,7 +188,8 @@ useEffect(()=>console.log('newBill changed'),[newBill])
                           records:[...oldBillPop.records
                           ]
                         }))
-      setOldBillPop({})
+      setOldBillPop({});
+      setRestored([]);
    }
    useEffect(() => {
     console.log('old bill pop triggered');
@@ -224,10 +248,14 @@ const handleOpenPrint=(bid)=>{
 const handlePrint=()=>{
   printPop&&printableBill.items&&printableBill.items.length&&
   console.log(`Ready to print ${JSON.stringify(printableBill)}`);
-
+  setBills((prev)=>(
+    [...prev.filter((x)=>x.bid!=printableBill.bid),printableBill]));
   setPrintPop(false);
+  
 }
 const handleCancelPrint=()=>{
+  setBills((prev)=>(
+    [...prev.filter((x)=>x.bid!=printableBill.bid),printableBill]));
   setPrintPop(false);
 };
 
@@ -246,10 +274,10 @@ const handleCancelPrint=()=>{
 const [confirmSave,setConfirmSave]=useState(false);
 const [printableBill,setPrintableBill]=useState({});
 useEffect(()=>setPrintableBill({bid:newBill.bid,c_name:newBill.c_name,c_phone:newBill.c_phone}),[]);
-useEffect(()=>console.log(`..`),[bills])
+useEffect(()=>console.log(`bills updated..`),[bills])
 const confirmSaveBill = (id,bTotal,p,d,items) => {
        let totalPaid=Number(Number(p)+Number(newBill.paid));
-       setPrintableBill((prev)=>({
+       setPrintableBill(()=>({
         
           bid:id,
           c_name:newBill.c_name,
@@ -269,7 +297,7 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
                     debt:d,
                     paid:totalPaid,
                     added_items:addedItems.length&&[...addedItems ],
-                    restored_items: []
+                    restored_items: restored.length&&[...restored]
                   },
                 ]
               : [ 
@@ -278,7 +306,7 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
                     paid: totalPaid,
                     debt: d,
                     added_items: addedItems.length&&[...addedItems ],
-                    restored_items: []
+                    restored_items: restored.length&&[...restored]
                   },
                 ],
         }))
@@ -289,8 +317,8 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
         console.log(`JSON NEW BILL ||||||||||||||||||||||||||||||||||||>>>> ${JSON.stringify(newBill)}`);
         //setNewBill((x)=>({...x,newBill}));
 
-       
-
+        
+        
         setNewBill(() => ({
           
             bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
@@ -306,11 +334,11 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
            
           
         }));
-
+        setRestored([]);
         setConfirmSave(false);
         setPrintPop(true);
-        setBills((prev)=>(
-        [...prev.filter((x)=>x.bid!=id),printableBill]));
+        //setBills((prev)=>(
+        //[...prev.filter((x)=>x.bid!=id),printableBill]));
         setAddedItems([]);
         
         console.log(`bills 1 ${bills.map((x) => x.bid)}`);
@@ -320,13 +348,14 @@ const confirmSaveBill = (id,bTotal,p,d,items) => {
 
 
 
- useEffect(()=>console.log(`updated bill`),[newBill])
+ useEffect(()=>console.log(`update bill and bills`),[printableBill,bills])
   const cancelSaveBillPop = () => {
     setConfirmSave(false);
   };
 
 
 const handleAddBill = (e) => {
+  
   setConfirmSave(true);
   setNewBill((prev)=>({...prev,items:[...newBill.items,...addedItems]}));
  
@@ -482,24 +511,24 @@ useEffect(()=> console.log(`bills 11111111111111111111111111 ${bills.map((x)=>x.
                   <td>Price/Unit</td>
                   <td>Total</td>
                 </tr>
-                {newBill.items?[...newBill.items].map((x)=>
-                  (<tr>
+                {newBill.items&&newBill.items.length?newBill.items.map((x)=>
+                  (<tr key={x.ibid}>
                   <td  style={{backgroundColor:"red"}}>{x.name}</td>
                   <td>{x.req_qty}</td>
                   <td>{x.unit}</td>
                   <td>${x.price_unit}</td>
                   <td>${x.total}</td>
-                  <td><button onClick={()=>setAddedItems((prev)=>prev.filter((y)=>y.ibid!=x.ibid))}>-</button></td>
+                  <td><button key={x.ibid} onClick={()=>deleteOldItem(x,newBill.bid)}>-</button></td>
                 </tr>))
                   :(<tr></tr>)}
                 {addedItems.length?addedItems.map((x)=>
-                  (<tr>
+                  (<tr key={x.ibid}>
                   <td>{x.name}</td>
                   <td>{x.req_qty}</td>
                   <td>{x.unit}</td>
                   <td>${x.price_unit}</td>
                   <td>${x.total}</td>
-                  <td><button onClick={()=>setAddedItems((prev)=>prev.filter((y)=>y.ibid!=x.ibid))}>-</button></td>
+                  <td><button onClick={()=>deleteNewItem(x)}>-</button></td>
                 </tr>))
                   :(<tr></tr>)}
 

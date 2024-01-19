@@ -106,21 +106,27 @@ const SaveBillPop = (props) => {
         
         
          {props.records&&props.records.length&&props.records.map((y)=>(y&&y.date&&
-        <table style={{ overflowY: "auto", border: "solid 2px" , alignItems:"center" }}>
-        <tr>
-          <th>History of op.</th><th>Debt</th><th>Paid</th>
-        </tr>
-        <tr>
-          <td>{y.date}</td><td>{y.debt}</td><td>{y.paid}</td>
-        </tr>
-        <tr>Added items</tr>
-        
-        {y&&y.added_items&&y.added_items.length?<tr><th>name</th><th>qty</th><th>total</th></tr>:` `}
-        {y&&y.added_items&&y.added_items.length?y.added_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>):`----------`}
-        <tr>Restored items</tr>
-        {y&&y.restord_items&&y.restord_items.length&&<tr><th>name</th><th>qty</th><th>total</th></tr>}
-        {y&&y.restord_items&&y.restord_items.length?y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>):`----------`}
-        </table>
+          <div  className="records">
+            <table style={{ overflowY: "auto",alignItems:"center" }}>
+            <tr><h5>Added items</h5></tr>
+            {y&&y.added_items&&y.added_items.length?<tr><th>name</th><th>qty</th><th>total</th></tr>:` `}
+            {y&&y.added_items&&y.added_items.length?y.added_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>):`----------`}
+            <tr><h5>Restored items</h5></tr>
+            {y&&y.restored_items&&y.restored_items.length&&<tr><th>name</th><th>qty</th><th>total</th></tr>}
+            {y&&y.restored_items&&y.restored_items.length?y.restored_items.map((z)=>z.ibid&&<tr><td>{z.name}</td><td>{z.req_qty}</td><td>{z.total}</td></tr>):`----------`}
+            </table>
+            
+            <table>
+            <tr>
+            <th>History of op.</th><th>Debt</th><th>Paid</th>
+          </tr>
+          <tr>
+            <td>{y.date}</td><td>{y.debt}</td><td>{y.paid}</td>
+          </tr>
+          
+            </table>
+            
+        </div>
          ))}
         
 

@@ -46,15 +46,31 @@
     display: flex;
     flex-direction: row;
 }
-td{
+.records{
+    background: rgb(11, 96, 114);
+    width:50vw;
+    display:flex;
+    flex-direction:row;
+    
+}
+.records table{
+    border:black dotted 2px;
+}
+.records td{
     align-items: center;
     justify-content: center;
     background-color: azure;
-    max-width: 50px;
+    max-width: 30px;
+    height:30px;
 }
-th{
+.records tr{
+ justify-content: center;
+}
+.records th{
     align-items: center;
     justify-content: center;
     background-color: rgb(72, 192, 192);
-    
+    max-width:30px;
+    height:20px;
+    max-height:30px;
 }

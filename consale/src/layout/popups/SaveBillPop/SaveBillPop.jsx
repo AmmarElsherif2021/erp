@@ -101,8 +101,7 @@ const SaveBillPop = (props) => {
             <td>{debt}</td>
           </tr>
         </table>
-          <h4>Bill operations history JSON-------- -----
-        <br/>--bid: {props.bid}----------total: {billTotal}------------------paid:{paid}-----------debt: {debt} </h4>
+          <h4>Operations history</h4>
         
         
          {props.records&&props.records.length&&props.records.map((y)=>(y&&y.date&&
@@ -118,12 +117,14 @@ const SaveBillPop = (props) => {
             
             <table>
             <tr>
-            <th>History of op.</th><th>Debt</th><th>Paid</th>
+            
           </tr>
-          <tr>
-            <td>{y.date}</td><td>{y.debt}</td><td>{y.paid}</td>
+          <tr >
+          <th>History of op.</th><td>{y.date}</td>
           </tr>
-          
+          <tr><th>Debt</th><td>{y.debt}</td></tr>
+          <tr><th>Paid</th><td>{y.paid}</td></tr>
+          <tr><th>Total</th><td>{y.b_total}</td></tr>
             </table>
             
         </div>

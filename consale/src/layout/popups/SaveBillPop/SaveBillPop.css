@@ -48,20 +48,24 @@
 }
 .records{
     background: rgb(11, 96, 114);
-    width:50vw;
+    width:70vw;
     display:flex;
     flex-direction:row;
     
 }
 .records table{
     border:black dotted 2px;
+    margin:3px;
+    display: inline-table;
+    justify-content: center;
+    
+
 }
 .records td{
     align-items: center;
     justify-content: center;
     background-color: azure;
-    max-width: 30px;
-    height:30px;
+    
 }
 .records tr{
  justify-content: center;
@@ -70,7 +74,5 @@
     align-items: center;
     justify-content: center;
     background-color: rgb(72, 192, 192);
-    max-width:30px;
-    height:20px;
-    max-height:30px;
+   
 }

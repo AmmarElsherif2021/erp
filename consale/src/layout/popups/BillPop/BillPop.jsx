@@ -1,75 +1,69 @@
 /* Bill atts:
     - Bid
- 	- c_name (optional)
-  	- c_phone
-   	- b_total
-	- discount
- 	- items
-  	- date
-   	- time
-*/ 
+      - c_name (optional)
+        - c_phone
+          - b_total
+    - discount
+      - items
+        - date
+          - time
+*/
 import './BillPop.css';
 
-import AnonPic from "../../../assets/anon.svg";
+import AnonPic from "../../../assets/bill-icon.svg";
 import cancelIcon from '../../../assets/cancel.svg';
 
-const BillPop=(props)=>{
-    const {cancelBillPop,openBill}=props;
-    return(
-    <div className='oldbill-pop'>
-    <button className='cancel-bill-pop' onClick={cancelBillPop}><img className='cancel-icon' src={cancelIcon}/></button>
+const BillPop = (props) => {
+    const { cancelBillPop, openBill } = props;
+    return (
+        <div className='oldbill-pop'>
+            <button className='cancel-bill-pop' onClick={cancelBillPop}><img className='cancel-icon' src={cancelIcon} /></button>
 
-        <div className='pop-header'>
-            <img className='pop-img' src={AnonPic}/>
-            <h1>old bill</h1>
-        </div>
+            <div className='pop-header'>
+                <img className='bill-pop-img' src={AnonPic} />
+                <h4>B-id: <span>{props.bid}</span> <br />
+                    Customer Name: <span>{props.cName}</span><br />
+                    Phone: <span>{props.phone}</span><br />
+                    Date: <span>{props.date}</span><br />
 
-        <div className='pop-p'>
-            <h4>B-id: <span>{props.bid}</span> <br/>
-             Customer Name: <span>{props.cName}</span>
-             Phone: <span>{props.phone}</span>
-             Date: <span>{props.date}</span>
-             Time: <span>{props.time}</span>
-            </h4>
-        </div>
-        <div>
-      
-          <table>
-          <thead >
-          <tr >
-            <th>Name</th>
-            <th>Required Quantity</th>
-            <th>Units</th>
-            <th>Price/Unit</th>
-            <th>Unit</th>
-            <th>Total</th>
-          
-            
-          </tr>
-        </thead>
-        <tbody>
-            {props.items.map(
-                (x)=>(<tr>
-                <td>{x.name}</td>
-                <td>{x.req_qty}</td>
-                <td>{x.unit}</td>
-                <td>{x.price_unit}</td>
-                <td>{x.total}</td>
-               
-                </tr>))}
-            <tr>  
-            <td>Total: {props.total}</td>
-            <td>Paid: {props.paid}</td>
-            <td>Debt: {props.debt}</td>
-            <td></td>
-            <td></td>
-            <td><button className='open-bill-btn' onClick={openBill}>Open Bill</button></td>
-            </tr>
-        </tbody>
-          </table>
-        </div>
+                    <small>Total:{props.total}</small> --
+                    <small> Paid:{props.paid}</small> --
+                    <small> Debt: {props.debt}</small> --
+                </h4>
+            </div>
+            <div style={{ overflowY: "scroll" }}>
 
-    </div>
+                <table className="bill-pop-table">
+                    <thead >
+                        <tr >
+                            <th><small>Name</small></th>
+                            <th><small>Required Quantity</small></th>
+                            <th><small>Units</small></th>
+                            <th><small>Price/Unit</small></th>
+
+                            <th><small>Total</small></th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {props.items.map(
+                            (x) => (<tr>
+                                <td><small>{x.name}</small></td>
+                                <td><small>{x.req_qty}</small></td>
+                                <td><small>{x.unit}</small></td>
+                                <td><small>{x.price_unit}</small></td>
+                                <td><small>{x.total}</small></td>
+
+                            </tr>))}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div><button className='open-bill-btn' onClick={openBill}>Open Bill</button></div>
+        </div>
     )
 }
 export default BillPop;

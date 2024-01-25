@@ -1,17 +1,17 @@
 .print-pop {
-    width: 60vw;
-    height: 60vh;
+    width: 42vw;
+    height: 45vh;
     position: fixed;
-    left: 40vw;
+    left: 30vw;
     top: 15vh;
     background: rgb(151, 199, 177);
     border: solid black 5px;
-    z-index: 1000;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
 }
 
-.print-pop table {
-    width: 100%;
-}
+
 
 .cancel-print-pop {
     width: 50px;
@@ -32,18 +32,18 @@
     top: 0
 }
 
-.print-pop {
-    padding: 50px;
-    width: 30vw;
-    height: 40vh;
-    display: grid;
-    grid-template-rows: 1fr 2fr;
-}
+
 
 .print-card-header {
 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    background: none;
+    justify-content: space-around;
+
+    .print-pop-img {
+        width: 150px;
+    }
 
 }
 
@@ -75,5 +75,21 @@
 .print-table {
     text-align: center;
     vertical-align: middle;
-    background: red;
+    background: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    table {
+        border: black dotted 2px;
+
+        th {
+            border: black dotted 2px;
+            max-width: 100px;
+        }
+
+        td {
+            max-width: 100px;
+        }
+    }
 }

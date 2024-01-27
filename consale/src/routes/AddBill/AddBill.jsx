@@ -5,12 +5,13 @@ import './AddBill.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import cancelIcon from '../../assets/cancel.svg';
 import sortIcon from '../../assets/sort.svg';
+import delIcon from '../../assets/del.svg';
 import { useBill, BillContext, BillProvider } from '../../billContext';
 import { useEffect, useState, useMemo } from 'react';
 import ItemToBill from '../../layout/popups/ItemToBill/ItemToBill';
 import BillCard from '../../layout/cards/BillCard/BillCard';
 import BillPop from '../../layout/popups/BillPop/BillPop';
-import saveBill from '../../assets/saveBill.png';
+import saveBill from '../../assets/saveBill.svg';
 import PrintPop from '../../layout/popups/printPop/printPop';
 
 import Dialog from '@mui/material/Dialog';
@@ -277,6 +278,7 @@ const AddBill = () => {
   useEffect(() => setPrintableBill({ bid: newBill.bid, c_name: newBill.c_name, c_phone: newBill.c_phone }), []);
   useEffect(() => console.log(`bills updated..`), [bills])
   const confirmSaveBill = (id, bTotal, p, d, items) => {
+
     let totalPaid = Number(Number(p) + Number(newBill.paid));
     setPrintableBill(() => ({
 
@@ -288,7 +290,7 @@ const AddBill = () => {
       b_total: bTotal,
       discount: 0,
       date: newBill.date,
-      items: items,
+      items: [...newBill.items, ...addedItems],
       records:
         newBill && newBill.records && newBill.records.length
           ? [
@@ -354,13 +356,15 @@ const AddBill = () => {
   useEffect(() => console.log(`update bill and bills`), [printableBill, bills])
   const cancelSaveBillPop = () => {
     setConfirmSave(false);
+    //setNewBill((prev) => ({ ...prev, items: [...items] }));
+
   };
 
 
   const handleAddBill = (e) => {
 
     setConfirmSave(true);
-    setNewBill((prev) => ({ ...prev, items: [...newBill.items, ...addedItems] }));
+    // setNewBill((prev) => ({ ...prev, items: [...newBill.items, ...addedItems] }));
 
   };
 
@@ -457,27 +461,35 @@ const AddBill = () => {
 
           <div className='bill-data-box'>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <h4>name</h4>
-              {newBill && newBill.records && newBill.records.length > 1 ? <h4>{': '}{newBill.c_name}</h4> : <input
-                style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
-                type='text'
-                onChange={(e) => setNewBill((prev) => ({ ...prev, c_name: e.target.value }))}
-                value={oldBillPop && oldBillPop.bid ? oldBillPop.c_name : newBill.c_name} />}
+
+              {newBill && newBill.records && newBill.records.length > 1 ? <h4>{': '}{newBill.c_name}</h4>
+                :
+                <input
+                  style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
+                  type='text'
+                  onChange={(e) => setNewBill((prev) => ({ ...prev, c_name: e.target.value }))}
+                  value={oldBillPop && oldBillPop.bid ? oldBillPop.c_name : newBill.c_name}
+                  placeholder='Enter customer name'
+                />}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <h4>phone</h4>
+
               <input
                 type='tel'
                 value={oldBillPop && oldBillPop.bid ? oldBillPop.phone : newBill.c_phone}
                 onChange={(e) => setNewBill((prev) => ({ ...prev, c_phone: e.target.value }))}
                 style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
+                placeholder='01xxxxxxxxx'
               />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <h4>Bid</h4><p style={{ color: 'blue', margin: '2px' }}>{oldBillPop && oldBillPop.bid ? oldBillPop.bid : newBill.bid}</p>
+              <h5 style={{ color: 'red', margin: '2px' }}>BID: {oldBillPop && oldBillPop.bid ? oldBillPop.bid : newBill.bid}</h5>
+
+
             </div>
+            <button className='open-save-bill-btn' onClick={(e) => handleAddBill(e)}><img className='bill-save-add-plus' src={saveBill} /></button>
             {
               /*|||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
               |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -491,13 +503,13 @@ const AddBill = () => {
               |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
               */
             }
-            <button className='save-bill-btn' style={{ backgroundColor: "black", width: "52px" }} onClick={(e) => handleAddBill(e)}><img className='save-add-plus' src={saveBill} /></button>
+
           </div>
 
           <div className='new-bill-space'>
 
-            <div className='bill-items-table'>
-              <table>
+            <div className='bill-items-table' >
+              <table >
                 <tr>
                   <th>Name</th>
                   <th>Required Quantity</th>
@@ -507,12 +519,12 @@ const AddBill = () => {
                 </tr>
                 {newBill.items && newBill.items.length ? newBill.items.map((x) =>
                 (<tr key={x.ibid}>
-                  <td style={{ backgroundColor: "#ff3300" }}>{x.name}</td>
+                  <td style={{ backgroundColor: "#5e9b88" }}>{x.name}</td>
                   <td>{x.req_qty}</td>
                   <td>{x.unit}</td>
                   <td>${x.price_unit}</td>
                   <td>${x.total}</td>
-                  <td><button key={x.ibid} onClick={() => deleteOldItem(x, newBill.bid)}>-</button></td>
+                  <td><button className='del-row' key={x.ibid} onClick={() => deleteOldItem(x, newBill.bid)}><img src={delIcon} style={{ width: "20px" }} /></button></td>
                 </tr>))
                   : (<tr></tr>)}
                 {addedItems.length ? addedItems.map((x) =>
@@ -522,18 +534,29 @@ const AddBill = () => {
                   <td>{x.unit}</td>
                   <td>${x.price_unit}</td>
                   <td>${x.total}</td>
-                  <td><button onClick={() => deleteNewItem(x)}>-</button></td>
+                  <td><button className='del-row' onClick={() => deleteNewItem(x)}><img src={delIcon} style={{ width: "20px" }} /></button></td>
                 </tr>))
                   : (<tr></tr>)}
-                <tr >
-                  <th>Total</th>
-                  <td className='total-cell'>{[...newBill.items, ...addedItems].reduce((acc, obj) => acc + obj.total, 0)}</td>
-                </tr>
+
 
               </table>
+
             </div>
 
+
+
+
+
           </div>
+          <div className='total-div' >
+            <table>
+              <tr >
+                <th>Total</th>
+                <td className='total-cell'>{[...newBill.items, ...addedItems].reduce((acc, obj) => acc + obj.total, 0)}</td>
+              </tr>
+            </table>
+          </div>
+
         </div>
 
 

@@ -1,47 +1,48 @@
-.bill-card{
-    width:20vw;
-    height:20vh;
+.bill-card {
+    width: 20vw;
+    height: 20vh;
     overflow: hidden;
     border: 5px solid black;
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 15px;
-    background: rgb(124, 177, 156);
+    background: #DACCA0;
     margin: 5px;
 
 }
 
-.card-header{
-    display:grid;
+.card-header {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-   
+
     max-height: 10vh;
-  
+
 }
-.card-img{
- 
+
+.card-img {
+
     background: none;
-   
+
     margin: 0;
-    padding:0;
+    padding: 0;
     width: 5vw;
-   
+
 
     object-fit: cover;
 
 }
 
 .card-p {
-    background:none;
+    background: none;
     max-height: 5vh;
     margin: 0;
-    
+
     width: 90%;
 
     object-fit: cover;
-    font:black;
+    font: black;
 
     opacity: 1;
-  
-  }
+
+}

@@ -1,14 +1,16 @@
+@import url('global.css');
+
 .oldbill-pop {
     max-width: 35vw;
     max-height: 60vh;
     overflow: hidden;
     border: 5px solid black;
     display: grid;
-    grid-template-rows: 2fr 4fr 1fr;
+    grid-template-rows: 1fr 2fr;
     padding: 5px;
     margin: 35px;
     border-radius: 35px;
-    background: rgb(31, 124, 87);
+    background: #DACCA0;
     z-index: 10000;
     position: fixed;
     top: 12vh;
@@ -19,6 +21,10 @@
     width: 7vw;
     height: 7vh;
     padding: 0;
+    background-color: black;
+    color: white;
+    margin-left: 30px;
+    margin-top: 10px;
 }
 
 .cancel-bill-pop {
@@ -26,15 +32,17 @@
     height: 50px;
     position: absolute;
     top: 0px;
-    left: 0px;
+    right: 0px;
     border: solid black 5px;
-    background-color: rgb(216, 44, 44);
+    background-color: #DD3522;
     border-radius: 50%;
 }
 
 .pop-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    background: none;
+    max-height: 25vh;
 }
 
 .bill-pop-img {
@@ -50,34 +58,18 @@
 
 }
 
-.pop-p {
-    background: none;
 
-    margin: 0;
-    padding: 0;
-    width: 100%;
-
-    object-fit: cover;
-    font: black;
-
-    opacity: 1;
-    -webkit-animation: flipinx 2s ease 1s 1 normal;
-    -moz-animation: flipinx 2s ease 1s 1 normal;
-    -ms-animation: flipinx 2s ease 1s 1 normal;
-    animation: flipinx 2s ease 1s 1 normal;
-}
 
 .bill-pop-table {
-    background: orange;
-
-    margin-bottom: 5px;
+    background: white;
     overflow: hidden;
+    border: dotted;
 
     tr {
-        background: orangered;
+        background: none;
 
         td {
-            background: greenyellow;
+            background: none;
             padding: 0;
             max-width: 100px;
             white-space: nowrap;

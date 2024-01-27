@@ -28,7 +28,7 @@ const BillPop = (props) => {
 
                     <small>Total:{props.total}</small> --
                     <small> Paid:{props.paid}</small> --
-                    <small> Debt: {props.debt}</small> --
+                    <small > Debt: <span style={{ color: "#DD3522" }}>{props.debt}</span></small>
                 </h4>
             </div>
             <div style={{ overflowY: "scroll" }}>

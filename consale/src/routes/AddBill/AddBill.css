@@ -26,11 +26,12 @@
 .new-bill-section {
 
 
-    height: 98vh;
+    height: 83vh;
+    margin-top: 30px;
     border-right: dotted 5px black;
     display: flex;
     flex-direction: column;
-
+    background: none;
     align-items: center;
     justify-content: space-evenly;
     box-sizing: border-box;
@@ -62,9 +63,8 @@
     border: black solid 3px;
 
     height: auto;
-    max-width: 95%;
-    min-width: 90%;
 
+    width: 22vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -73,29 +73,27 @@
 .section-header {
 
 
-    background: none;
+    background: white;
 
 
     position: relative;
     border: black solid 3px;
 
     height: auto;
-    max-width: 95%;
-    min-width: 90%;
+    width: 43.9vw;
 
     display: flex;
     flex-direction: row;
     align-items: center;
 
-}
+    ul {
+        z-index: 100000;
+        height: auto;
+        position: absolute;
+        background: rgb(71, 124, 171);
+        width: 600px;
 
-.section-header ul {
-    z-index: 100000;
-    height: auto;
-    position: absolute;
-    background: rgb(71, 124, 171);
-    width: 600px;
-
+    }
 }
 
 .filter-bills {
@@ -114,7 +112,7 @@
     position: relative;
 
     border: solid black 5px;
-    background-color: rgb(27, 116, 143);
+    background-color: #235945;
     border-radius: 5px;
     margin: 3px;
 
@@ -123,7 +121,7 @@
 .arrange:hover {
     width: 50px;
     height: 50px;
-    background-color: rgb(72, 170, 255);
+    background-color: #3f886d;
     border: solid rgb(26, 24, 24) 4px;
 
 }
@@ -134,24 +132,30 @@
     position: relative;
 
     border: solid black 5px;
-    background-color: rgb(216, 44, 44);
+    background-color: #DD3522;
     border-radius: 20%;
     margin: 2px;
+
+    :hover {
+        background-color: #f6311c;
+    }
 
 }
 
 .new-bill-space {
 
     position: relative;
+    top: 0;
     display: flex;
     flex-direction: column;
 
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 50vw;
     min-width: 50vw;
-    height: 90vh;
-    max-height: 90%;
+    height: 75vh;
+    background: none;
+
     box-sizing: border-box;
 
 
@@ -160,36 +164,49 @@
 
 
 .bill-data-box {
-    background: rgb(53, 124, 129);
+    background: black;
+    color: white;
     height: 12vh;
     width: 48vw;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 2px;
+
 
 
 
 }
 
-.save-bill-btn {
+.open-save-bill-btn {
+
+    width: 60px;
+    height: 60px;
+    background-color: #235945;
+    border: solid rgb(0, 0, 0) 2px;
+    padding: 0;
+    margin-left: 5px;
+
+    z-index: 1000;
+
+    :hover {
+        background-color: #347b61;
+        width: 61px;
+        height: 60px;
+    }
+
+
+}
+
+.bill-save-add-plus {
+
+    width: 60px;
     position: relative;
     top: 0;
     left: 0;
-    width: 50px;
-    height: 50px;
-    background-color: black;
-    border: solid black 2px;
-    margin: 20px;
-    z-index: 1;
-}
+    margin: 0;
 
-.save-add-plus {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 40px;
 }
 
 .old-bills-space {
@@ -198,22 +215,44 @@
 
     height: 88%;
     max-height: 90%;
-    overflow-y: scroll;
+
     overflow-x: none;
 }
 
 .bill-items-table {
-    background: aliceblue;
+    background: white;
     position: absolute;
     top: 0;
     margin-top: 10px;
     width: 48vw;
+    height: 390px;
+    overflow-y: scroll;
+
+    table {
+        width: 95%;
+
+        overflow-y: auto;
+
+        background: none;
+
+    }
 }
 
-table {
-    width: 95%;
+.del-row {
+    box-shadow: none;
 }
+
+.total-div {
+    border-top: dotted black;
+    background: white;
+    z-index: 100;
+    width: 48vw;
+
+
+}
+
 
 .total-cell {
-    border: dotted black 2px;
+    border: dotted #DD3522 2px;
+    font-weight: 500;
 }

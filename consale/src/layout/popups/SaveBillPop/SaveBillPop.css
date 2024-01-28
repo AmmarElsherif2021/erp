@@ -1,78 +1,193 @@
-.save-bill-pop{
-    width:75vw;
-    height:95vh;
-    position:fixed;
-    left:12vw;
-    top:1vh;
-    background:rgb(90, 192, 144);
-    border:solid black 5px;
-    padding:10px;
-    justify-content: center;
-    z-index :100000;
-    overflow-y: scroll;
-    
-}
-.pop-header{
-    display: grid;
-    grid-template-rows: 3fr 1fr;
-    min-width:100%;
-}
-.cancel-save-bill-pop{
-    width:50px;
-    height:50px;
-    position:absolute;
-    top:-25px;
-    left:-25px;
-    border:solid black 5px;
-    background-color: rgb(216, 44, 44);
-    border-radius: 50%;
+   /* This will affect the scrollbar globally */
+   *::-webkit-scrollbar {
+       width: 12px;
+   }
 
-}
-.cancel-icon{
-    width:40px;
-    position:absolute;
-    left:0;
-    top:0
-}
-.save-bill-btn{
-    border:solid black 2px;
-    border-radius: 10px;
-    background: none;
-    margin:3px;
-    width:30%;
-    max-width:50%;
-}
-.btns-section{
-    display: flex;
-    flex-direction: row;
-}
-.records{
-    background: rgb(11, 96, 114);
-    width:70vw;
-    display:flex;
-    flex-direction:row;
-    
-}
-.records table{
-    border:black dotted 2px;
-    margin:3px;
-    display: inline-table;
-    justify-content: center;
-    
+   *::-webkit-scrollbar-track {
+       background-color: transparent;
+       border: 2px solid black;
+       /* This makes the background color none */
+   }
 
-}
-.records td{
-    align-items: center;
-    justify-content: center;
-    background-color: azure;
-    
-}
-.records tr{
- justify-content: center;
-}
-.records th{
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(72, 192, 192);
-   
-}
+   *::-webkit-scrollbar-thumb {
+       background-color: #1E1E20;
+       /* This makes the moving bar black */
+       border: 2px solid black;
+       /* This adds a 3px border to the moving bar */
+   }
+
+   .save-bill-pop {
+       width: 75vw;
+       height: 90vh;
+       position: fixed;
+       left: 12vw;
+       top: 1vh;
+       background: #DACCA0;
+       border: solid black 5px;
+       border-radius: 35px;
+       padding: 10px;
+       justify-content: center;
+       align-items: center;
+       z-index: 100000;
+
+
+   }
+
+   .pop-header {
+       display: grid;
+       grid-template-rows: 3fr 1fr;
+       min-width: 100%;
+   }
+
+   .cancel-save-bill-pop {
+       width: 50px;
+       height: 50px;
+       position: absolute;
+       top: 0;
+       right: 0;
+       border: solid black 5px;
+       background-color: rgb(216, 44, 44);
+       border-radius: 50%;
+
+       .cancel-icon {
+           width: 40px;
+           position: absolute;
+           top: 0;
+           left: 0;
+           z-index: 1000;
+       }
+   }
+
+
+
+   .save-bill-btn {
+       border: solid black 2px;
+       border-radius: 10px;
+       background: none;
+       margin: 3px;
+       width: 30%;
+       max-width: 50%;
+   }
+
+   .btns-section {
+       display: flex;
+       flex-direction: row;
+   }
+
+   .current-space {
+       overflow-y: auto;
+       overflow-x: hidden;
+       height: 500px;
+       width: 550px;
+       border: solid black 3px;
+       border-right: none;
+       background: white;
+
+
+
+
+       table {
+           width: 540px;
+           max-height: 500px;
+           background-color: white;
+           border: none;
+
+           th {
+               border-bottom: dotted;
+           }
+
+       }
+   }
+
+   .records-space {
+       background: white;
+       width: 470px;
+       height: 500px;
+       border: solid black 3px;
+       border-right: none;
+       border-left: none;
+       margin-left: 5px;
+       padding: 0;
+       overflow-y: scroll;
+       overflow-x: hidden;
+
+       .records {
+
+           width: 460px;
+           display: flex;
+           flex-direction: row;
+
+           table {
+               border: black dotted 2px;
+               margin: 3px;
+               display: table-caption;
+               justify-content: center;
+               width: 250px;
+
+               background: white;
+
+               tr {
+                   justify-content: center;
+                   max-height: 40px;
+
+
+
+
+                   th {
+                       align-items: center;
+                       justify-content: center;
+                       background-color: #000000;
+                       color: white;
+
+
+                   }
+
+                   td {
+                       align-items: center;
+                       justify-content: center;
+                       background-color: #DACCA0;
+                       height: 30px;
+                       max-height: 31px;
+
+                   }
+
+               }
+
+
+           }
+       }
+   }
+
+   .btns-section {
+       background: none;
+       height: 70px;
+       display: flex;
+       flex-direction: row;
+       justify-content: space-evenly;
+       align-items: center;
+
+
+
+   }
+
+   .confirm-save {
+       background-color: #26654e;
+       border: solid black 2px;
+       font-weight: 600;
+
+       :hover {
+           background-color: #21805d;
+           border: solid #1E1E20 3px;
+       }
+   }
+
+   .cancel-save {
+       background-color: #DD3522;
+       border: solid black 2px;
+       font-weight: 600;
+
+       :hover {
+           background-color: #ec210a;
+           border: solid #1E1E20 3px;
+       }
+   }

@@ -1,14 +1,17 @@
 .print-pop {
-    width: 42vw;
-    height: 45vh;
+    width: 46vw;
+    height: 50vh;
     position: fixed;
     left: 30vw;
     top: 15vh;
     background: rgb(151, 199, 177);
     border: solid black 5px;
+    border-radius: 35px;
     z-index: 10000;
     display: flex;
     flex-direction: column;
+    margin: 20px;
+    overflow: hidden;
 }
 
 
@@ -17,8 +20,8 @@
     width: 50px;
     height: 50px;
     position: absolute;
-    top: -25px;
-    left: -25px;
+    top: 0;
+    right: 0;
     border: solid black 5px;
     background-color: rgb(216, 44, 44);
     border-radius: 50%;
@@ -40,6 +43,7 @@
     flex-direction: row;
     background: none;
     justify-content: space-around;
+    align-items: center;
 
     .print-pop-img {
         width: 150px;
@@ -56,8 +60,7 @@
 .print-card-p {
     display: flex;
     flex-direction: row;
-    align-prints: center;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .print-pop-btn {
@@ -78,18 +81,38 @@
     background: none;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: baseline;
+    margin-top: 5px;
+    margin-bottom: 5px;
 
     table {
         border: black dotted 2px;
+        min-width: 150px;
+
 
         th {
-            border: black dotted 2px;
+            background-color: #658278;
             max-width: 100px;
         }
 
         td {
             max-width: 100px;
         }
+    }
+
+
+
+}
+
+.confirm-print-btn {
+    background-color: #26654e;
+    border: solid black 2px;
+    font-weight: 600;
+    margin-top: 20px;
+
+    :hover {
+        background-color: #21805d;
+        border: solid #1E1E20 3px;
     }
 }

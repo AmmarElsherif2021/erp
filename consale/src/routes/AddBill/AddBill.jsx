@@ -40,7 +40,7 @@ const AddBill = () => {
   //const {newBill,setNewBill}=useBill();
   const [newBill, setNewBill] = useState({
     bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
-    c_name: "",
+    c_name: "-",
     c_phone: "",
     b_total: 0,
     discount: 0,
@@ -327,7 +327,7 @@ const AddBill = () => {
     setNewBill(() => ({
 
       bid: `b-${Math.random().toString(36).substring(2, 7).slice(0, 5)}`,
-      c_name: "",
+      c_name: "-",
       c_phone: "",
       b_total: 0,
       discount: 0,
@@ -437,7 +437,7 @@ const AddBill = () => {
             key={newBill.bid}
             bid={newBill.bid}
             cName={newBill.c_name}
-            items={newBill.items}
+            items={[...newBill.items, ...addedItems]}
             confirmSaveBill={confirmSaveBill}
             cancelSaveBillPop={cancelSaveBillPop}
             bTotal={newBill.b_total}
@@ -455,41 +455,47 @@ const AddBill = () => {
       <div className='add-bill-sections'>
 
         <div className="new-bill-section left-pane" >
-          <div className="section-header">
-            <ControllableStates options={stockData} handleNewItemPop={handleNewItemPop} />
-          </div>
 
-          <div className='bill-data-box'>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
 
-              {newBill && newBill.records && newBill.records.length > 1 ? <h4>{': '}{newBill.c_name}</h4>
-                :
-                <input
-                  style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
-                  type='text'
-                  onChange={(e) => setNewBill((prev) => ({ ...prev, c_name: e.target.value }))}
-                  value={oldBillPop && oldBillPop.bid ? oldBillPop.c_name : newBill.c_name}
-                  placeholder='Enter customer name'
-                />}
+          <div className='bill-data-box' style={{ color: "white" }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="section-header">
+                <ControllableStates options={stockData} handleNewItemPop={handleNewItemPop} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
+                <div style={{ display: 'flex', flexDirection: 'row', }}>
+
+                  {newBill && newBill.records && newBill.records.length > 1 ? <h4>{'Customer Name: '}{newBill.c_name}</h4>
+                    :
+                    <input
+                      style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
+                      type='text'
+                      onChange={(e) => setNewBill((prev) => ({ ...prev, c_name: e.target.value }))}
+                      value={oldBillPop && oldBillPop.bid ? oldBillPop.c_name : newBill.c_name}
+                      placeholder='Enter customer name'
+                    />}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <input
+                    type='tel'
+                    value={oldBillPop && oldBillPop.bid ? oldBillPop.phone : newBill.c_phone}
+                    onChange={(e) => setNewBill((prev) => ({ ...prev, c_phone: e.target.value }))}
+                    style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
+                    placeholder='01xxxxxxxxx'
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                  <h5 style={{ color: 'red', margin: '2px' }}>BID: {oldBillPop && oldBillPop.bid ? oldBillPop.bid : newBill.bid}</h5>
+                </div>
+
+                <button className='open-save-bill-btn' onClick={(e) => handleAddBill(e)}><img className='bill-save-add-plus' src={saveBill} /></button>
+              </div>
+
+
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-
-              <input
-                type='tel'
-                value={oldBillPop && oldBillPop.bid ? oldBillPop.phone : newBill.c_phone}
-                onChange={(e) => setNewBill((prev) => ({ ...prev, c_phone: e.target.value }))}
-                style={{ maxHeight: '30px', margin: '5px', maxWidth: '120px' }}
-                placeholder='01xxxxxxxxx'
-              />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <h5 style={{ color: 'red', margin: '2px' }}>BID: {oldBillPop && oldBillPop.bid ? oldBillPop.bid : newBill.bid}</h5>
-
-
-            </div>
-            <button className='open-save-bill-btn' onClick={(e) => handleAddBill(e)}><img className='bill-save-add-plus' src={saveBill} /></button>
             {
               /*|||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
               |||||||||||||||||||||||||||||||||||||||||||||||||||||....||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -575,7 +581,7 @@ const AddBill = () => {
 
           <div className='old-bills-space'>
 
-            <div style={{ fontSize: 8 }}>
+            <div style={{ fontSize: 8 }} className="bills-roll">
 
               {//bills&&bills.length>0 ?
                 filteredItems && filteredItems.length > 0 ?
